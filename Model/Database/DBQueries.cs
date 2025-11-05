@@ -240,7 +240,7 @@ namespace Appointment_Manager.Model.Database
         }
         public static string InitializeDatabaseQuery 
         { get 
-            { return "USE <schema name>;\r\n \r\n--\r\n-- populate table `country`\r\n--\r\n" +
+            { return "USE client_schedule;\r\n \r\n--\r\n-- populate table `country`\r\n--\r\n" +
                     "INSERT INTO `country` VALUES \r\n(1,'US','2019-01-01 00:00:00','test','2019-01-01 00:00:00','test')," +
                     "\r\n(2,'Canada','2019-01-01 00:00:00','test','2019-01-01 00:00:00','test')," +
                     "\r\n(3,'Norway','2019-01-01 00:00:00','test','2019-01-01 00:00:00','test');" +
