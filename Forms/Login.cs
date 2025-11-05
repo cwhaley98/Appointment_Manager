@@ -44,6 +44,8 @@ namespace Appointment_Manager
                 var loginAttempt = loginController.ValidateLogin(username, password);
                 if (loginAttempt)
                 {
+                    //Capture the user's local time zone and store it in the session
+                    UserSessions.CurrentUserTimeZone = TimeZoneInfo.Local;
                     //Validate appointments within 15 mins
                     appointmentController.ValidateUpcomingAppointments();
                     this.Hide();
