@@ -297,7 +297,7 @@ namespace Appointment_Manager.Forms
         {
             if (formState == FormState.Appointments)
             {
-                mainDGV.DataSource = appointmentController.GetAppointments(appointmentFilterState);
+                mainDGV.DataSource = appointmentController.GetAppointments();
                 SetupAppointmentDGV();
             }
             else if (formState == FormState.Customers)
