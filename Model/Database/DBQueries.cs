@@ -225,7 +225,7 @@ namespace Appointment_Manager.Model.Database
                     "SELECT " +
                     "COUNT(*) " +
                     "FROM information_schema.tables " +
-                    "WHERE table_schema = client_schedule " +
+                    "WHERE table_schema = DATABASE() " +
                     "AND table_name IN ('user', 'country', 'city', 'address', 'customer', 'appointment');"; 
             } 
         }
