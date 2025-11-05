@@ -95,7 +95,7 @@ namespace Appointment_Manager.Forms
                 && Validation.ValidateTextBox(city_textbox, "string", errorProvider)
                 && Validation.ValidateTextBox(postalcode_textbox, "string", errorProvider)
                 && Validation.ValidateTextBox(country_textbox, "string", errorProvider)
-                && Validation.ValidateTextBox(phone_textbox, "string", errorProvider);
+                && Validation.ValidateTextBox(phone_textbox, "phone", errorProvider);
 
 
         #endregion
