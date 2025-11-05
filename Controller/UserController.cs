@@ -51,7 +51,7 @@ namespace Appointment_Manager.Controller
                 using (MySqlConnection connection = DBConnection.GetNewConnection())
                 {
 
-                    using (MySqlCommand consultantCMD = new MySqlCommand(DBQueries.GetUserSchedule, connection))
+                    using (MySqlCommand consultantCMD = new MySqlCommand(DBQueries.ReportConsultantScheduleQuery, connection))
                     {
                         consultantCMD.Parameters.AddWithValue("@userName", userName);
                         consultantCMD.Parameters.AddWithValue("@userId", userId);

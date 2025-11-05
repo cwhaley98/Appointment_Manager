@@ -270,8 +270,6 @@
         private ToolStripMenuItem CustomersTab;
         private ToolStripMenuItem AppointmentsTab;
         private ToolStripMenuItem ReportsMenuItem;
-        private TabPage tabPage1;
-        private TabPage tabPage2;
         private ToolStripMenuItem appointmentTypesByMonthToolStripMenuItem;
         private ToolStripMenuItem consultantSchedulesToolStripMenuItem;
         private ToolStripMenuItem appointmentPerLocationToolStripMenuItem;

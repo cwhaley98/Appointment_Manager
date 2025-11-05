@@ -201,14 +201,14 @@ namespace Appointment_Manager.Forms
                 timeSlots.Add(new TimeSlot
                 {
                     // Format: "09:00 - 09:30"
-                    Display = $"{startTime:hh\\:mm} - {slotEnd:hh\\:mm}",
+                    DisplayText = $"{startTime:hh\\:mm} - {slotEnd:hh\\:mm}",
                     Value = startTime
                 });
                 startTime = slotEnd;
             }
 
             AppointmentTimeComboBox.DataSource = timeSlots;
-            AppointmentTimeComboBox.DisplayMember = "Display";
+            AppointmentTimeComboBox.DisplayMember = "DisplayText";
             AppointmentTimeComboBox.ValueMember = "Value";
             AppointmentTimeComboBox.SelectedIndex = -1;
         }
