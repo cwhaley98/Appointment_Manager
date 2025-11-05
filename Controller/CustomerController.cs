@@ -191,7 +191,7 @@ namespace Appointment_Manager.Controller
             }
         }
 
-        public void DeleteCustomer(int customerId)
+        public void DeleteCustomer(string customerId)
         {
             using (MySqlConnection connection = DBConnection.GetNewConnection())
             try

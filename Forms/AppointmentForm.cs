@@ -55,7 +55,7 @@ namespace Appointment_Manager.Forms
 
             //Time Conversion
             DateTime datePart = AppointmentDatePicker.Value.Date;
-            TimeSpan timePart = (TimeSlot)AppointmentTimeComboBox.SelectedValue;
+            TimeSpan timePart = (TimeSpan)AppointmentTimeComboBox.SelectedValue;
 
             DateTime startTimeLocal = datePart + timePart;
             DateTime endTimeLocal = startTimeLocal.AddMinutes(30); // Makes appointments 30 minutes long
@@ -178,18 +178,18 @@ namespace Appointment_Manager.Forms
             VisitTypeComboBox.SelectedIndex = -1;
 
             // Wire up validation event handlers
-            CustomerNameComboBox.SelectedIndexChanged += ComboBox_SelectedIndexChanged;
-            ConsultantComboBox.SelectedIndexChanged += ComboBox_SelectedIndexChanged;
-            LocationComboBox.SelectedIndexChanged += ComboBox_SelectedIndexChanged;
-            VisitTypeComboBox.SelectedIndexChanged += ComboBox_SelectedIndexChanged;
-            AppointmentTimeComboBox.SelectedIndexChanged += ComboBox_SelectedIndexChanged;
+            CustomerNameComboBox.SelectedIndexChanged += CustomerNameComboBox_SelectedIndexChanged;
+            ConsultantComboBox.SelectedIndexChanged += ConsultantComboBox_SelectedIndexChanged;
+            LocationComboBox.SelectedIndexChanged += LocationComboBox_SelectedIndexChanged;
+            VisitTypeComboBox.SelectedIndexChanged += VisitTypeComboBox_SelectedIndexChanged;
+            AppointmentTimeComboBox.SelectedIndexChanged += AppointmentTimeComboBox_SelectedIndexChanged;
 
         }
 
         /// <summary>
         /// Populates the time ComboBox with 30-min intervals during business hours (9am-5pm).
         /// </summary>
-        private void PopulateTimeComboBox()
+        public void PopulateTimeComboBox()
         {
             var timeSlots = new List<TimeSlot>();
             TimeSpan startTime = new TimeSpan(9, 0, 0);  // 9:00 AM
@@ -213,13 +213,13 @@ namespace Appointment_Manager.Forms
             AppointmentTimeComboBox.SelectedIndex = -1;
         }
 
-        private void UpdateAppointmentTitle(bool isUpdate)
+        public void UpdateAppointmentTitle(bool isUpdate)
         {
             this.IsUpdate = isUpdate;
             AppointmentFormTitle.Text = isUpdate ? "Update Appointment" : "Add Appointment";
         }
 
-        private void PopulateAppointmentFields(DataGridViewRow row)
+        public void PopulateAppointmentFields(DataGridViewRow row)
         {
             // Get LOCAL time
             DateTime startTimeLocal = (DateTime)row.Cells["Start"].Value;

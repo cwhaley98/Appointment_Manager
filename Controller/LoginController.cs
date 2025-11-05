@@ -20,7 +20,7 @@ namespace Appointment_Manager.Controller
             using (MySqlConnection connection = DBConnection.GetNewConnection())
             {
                 MySqlDataReader reader;
-                using (var loginCMD = new MySqlCommand(DBQueries.GetLoginQuery(), connection))
+                using (var loginCMD = new MySqlCommand(DBQueries.ValidateUserQuery, connection))
                 {
                     loginCMD.Parameters.AddWithValue("@username", username);
                     loginCMD.Parameters.AddWithValue("@password", password);
