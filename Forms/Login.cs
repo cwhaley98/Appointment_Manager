@@ -13,6 +13,7 @@ using System.Drawing;
 using Appointment_Manager.Controller;
 using Appointment_Manager.Model.Database;
 using Appointment_Manager.Controller.Utils;
+using Appointment_Manager.Forms;
 
 namespace Appointment_Manager
 {
@@ -48,6 +49,15 @@ namespace Appointment_Manager
                     UserSessions.CurrentUserTimeZone = TimeZoneInfo.Local;
                     //Validate appointments within 15 mins
                     appointmentController.ValidateUpcomingAppointments();
+
+                    try
+                    {
+                        UserActivity.LogUserActivity(username);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Failed to write to log file: {ex.Message}.");
+                    }
                     this.Hide();
                 }
             }

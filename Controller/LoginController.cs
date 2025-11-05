@@ -9,40 +9,43 @@ using System.Windows.Forms;
 using System.Globalization;
 using Appointment_Manager.Model;
 using Appointment_Manager.Model.Database;
+using Appointment_Manager.Forms;
 
 namespace Appointment_Manager.Controller
 {
     public class LoginController
     {
-        public bool ValidateLogin(MySqlConnection dbconnection, string username, string password)
+        public bool ValidateLogin(string username, string password)
         {
-            MySqlDataReader reader;
-            using (var loginCMD = new MySqlCommand(DBQueries.GetLoginQuery(), dbconnection))
+            using (MySqlConnection connection = DBConnection.GetNewConnection())
             {
-                loginCMD.Parameters.AddWithValue("@username", username);
-                loginCMD.Parameters.AddWithValue("@password", password);
-                reader = loginCMD.ExecuteReader();
-                if (reader.HasRows)
+                MySqlDataReader reader;
+                using (var loginCMD = new MySqlCommand(DBQueries.GetLoginQuery(), connection))
                 {
-                    LoginSuccessful();
-                    UserActivity.LogUserActivity(username); //Logs user information
-                    UserSessions.CurrentUserName = username; //Sets current user for data logging
-                    while (reader.Read())
+                    loginCMD.Parameters.AddWithValue("@username", username);
+                    loginCMD.Parameters.AddWithValue("@password", password);
+                    reader = loginCMD.ExecuteReader();
+                    if (reader.HasRows)
                     {
-                        int userId = reader.GetInt32("UserID");
-                        UserSessions.CurrentUserId = userId;
+                        LoginSuccessful();
+                        UserActivity.LogUserActivity(username); //Logs user information
+                        UserSessions.CurrentUserName = username; //Sets current user for data logging
+                        while (reader.Read())
+                        {
+                            int userId = reader.GetInt32("UserID");
+                            UserSessions.CurrentUserId = userId;
+                        }
+                        MainForm mainForm = new MainForm();
+                        mainForm.Show();
+                        return true;
                     }
-                    Appointment mainForm = new Appointment();
-                    mainForm.Show();
-                    return true;
-                }
-                else
-                {
-                    LoginFail();
-                    return false;
+                    else
+                    {
+                        LoginFail();
+                        return false;
+                    }
                 }
             }
-            
         }
 
         // Displays login success and fail messages based on current culture settings
