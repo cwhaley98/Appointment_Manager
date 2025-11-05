@@ -63,7 +63,9 @@ namespace Appointment_Manager.Forms
             DateTime startTimeEST = TimeUtil.ConvertToEST(startTimeLocal);
             DateTime endTimeEST = TimeUtil.ConvertToEST(endTimeLocal);
 
-            if (appointmentController.CheckForOverlappingAppointments(startTimeEST, endTimeEST, appointmentId))
+            int consultantId = (int)ConsultantComboBox.SelectedValue;
+
+            if (appointmentController.CheckForOverlappingAppointments(consultantId, startTimeEST, endTimeEST, appointmentId))
             {
                 MessageBox.Show("This appointment overlaps with an existing appointment for this consultant. Please choose a different time.", "Overlap Detected.", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
@@ -225,7 +227,7 @@ namespace Appointment_Manager.Forms
             // Set simple fields
             DescriptionTextBox.Text = row.Cells["Description"].Value.ToString();
             LocationComboBox.SelectedItem = row.Cells["Location"].Value.ToString();
-            VisitTypeComboBox.SelectedItem = row.Cells["Visit Type"].Value.ToString();
+            VisitTypeComboBox.SelectedItem = row.Cells["Type"].Value.ToString();
             CustomerNameComboBox.SelectedValue = (int)row.Cells["CustomerId"].Value;
             ConsultantComboBox.SelectedValue = (int)row.Cells["UserId"].Value;
 
