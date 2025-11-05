@@ -1,5 +1,6 @@
-﻿using Appointment_Manager.Model.Entities;
-using Appointment_Manager.Controller;
+﻿using Appointment_Manager.Controller;
+using Appointment_Manager.Controller.Utils;
+using Appointment_Manager.Model.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -90,12 +91,12 @@ namespace Appointment_Manager.Forms
             countryId = row.Cells["CountryId"].Value.ToString();
         }
 
-        private bool FieldsAreValid() => Validation.ValidateTextBox(name_textbox, "string", errorProvider)
-                && Validation.ValidateTextBox(address_textbox, "string", errorProvider)
-                && Validation.ValidateTextBox(city_textbox, "string", errorProvider)
-                && Validation.ValidateTextBox(postalcode_textbox, "string", errorProvider)
-                && Validation.ValidateTextBox(country_textbox, "string", errorProvider)
-                && Validation.ValidateTextBox(phone_textbox, "phone", errorProvider);
+        private bool FieldsAreValid() => FormValidations.ValidateTextBox(name_textbox, "string", errorProvider)
+                && FormValidations.ValidateTextBox(address_textbox, "string", errorProvider)
+                && FormValidations.ValidateTextBox(city_textbox, "string", errorProvider)
+                && FormValidations.ValidateTextBox(postalcode_textbox, "string", errorProvider)
+                && FormValidations.ValidateTextBox(country_textbox, "string", errorProvider)
+                && FormValidations.ValidateTextBox(phone_textbox, "phone", errorProvider);
 
 
         #endregion
@@ -103,32 +104,32 @@ namespace Appointment_Manager.Forms
         #region TextChange Validation
         private void name_textbox_TextChanged(object sender, EventArgs e)
         {
-            save_btn.Enabled = Validation.ValidateTextBox(name_textbox, "string", errorProvider);
+            save_btn.Enabled = FormValidations.ValidateTextBox(name_textbox, "string", errorProvider);
         }
 
         private void address_textbox_TextChanged(object sender, EventArgs e)
         {
-            save_btn.Enabled = Validation.ValidateTextBox(address_textbox, "string", errorProvider);
+            save_btn.Enabled = FormValidations.ValidateTextBox(address_textbox, "string", errorProvider);
         }
 
         private void city_textbox_TextChanged(object sender, EventArgs e)
         {
-            save_btn.Enabled = Validation.ValidateTextBox(city_textbox, "string", errorProvider);
+            save_btn.Enabled = FormValidations.ValidateTextBox(city_textbox, "string", errorProvider);
         }
 
         private void postalcode_textbox_TextChanged(object sender, EventArgs e)
         {
-            save_btn.Enabled = Validation.ValidateTextBox(postalcode_textbox, "string", errorProvider);
+            save_btn.Enabled = FormValidations.ValidateTextBox(postalcode_textbox, "string", errorProvider);
         }
 
         private void country_textbox_TextChanged(object sender, EventArgs e)
         {
-            save_btn.Enabled = Validation.ValidateTextBox(country_textbox, "string", errorProvider);
+            save_btn.Enabled = FormValidations.ValidateTextBox(country_textbox, "string", errorProvider);
         }
 
         private void phone_textbox_TextChanged(object sender, EventArgs e)
         {
-            save_btn.Enabled = Validation.ValidateTextBox(phone_textbox, "string", errorProvider);
+            save_btn.Enabled = FormValidations.ValidateTextBox(phone_textbox, "string", errorProvider);
         }
         #endregion
     }
