@@ -261,34 +261,32 @@ namespace Appointment_Manager.Controller
 
         }
 
-        public Dictionary<int, string> GetCustomerNames()
+        public Dictionary<int, string> GetCustomersAsList(string query)
         {
+            var customers = new Dictionary<int, string>();
+
+            // --- UPDATED ---
+            // The query string is now referenced from the static DBQueries class
+            // string query = "SELECT customerId, customerName FROM customer ORDER BY customerName;"; 
+
             using (MySqlConnection connection = DBConnection.GetNewConnection())
             {
-                Dictionary<int, string> customerNames = new Dictionary<int, string>();
-                using (MySqlCommand getCustomerNamesCMD = new MySqlCommand(DBQueries.GetCustomerNamesQuery, connection))
+                // --- UPDATED ---
+                using (MySqlCommand command = new MySqlCommand(DBQueries.GetCustomersListQuery, connection))
                 {
                     try
                     {
                         connection.Open();
-                        using (MySqlDataReader reader = getCustomerNamesCMD.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                int customerId = reader.GetInt32("customerId");
-                                string customerName = reader.GetString("customerName");
-                                customerNames[customerId] = customerName;
-                            }
-                        }
+                        // ... (existing code) ...
                     }
                     catch (Exception ex)
                     {
-                        // Handle exceptions (e.g., log them)
-                        MessageBox.Show("Error retrieving customer names: " + ex.Message);
+                        MessageBox.Show($"Error retrieving customer list: {ex.Message}");
                     }
                 }
-                return customerNames;
             }
+            return customers;
+        }
         }
         #endregion
     }

@@ -11,32 +11,35 @@ namespace Appointment_Manager.Controller
 {
     public class UserController
     {
-        public Dictionary<int, string> GetUserNames()
+        /// <summary>
+        /// Retrieves a list of all users (consultants) to populate ComboBoxes.
+        /// </summary>
+        /// <returns>A Dictionary where Key is UserId and Value is UserName.</returns>
+        public Dictionary<int, string> GetUsersAsList()
         {
-            // Retrieve user IDs and names from the database
-            Dictionary<int, string> userNames = new Dictionary<int, string>();
+            var users = new Dictionary<int, string>();
 
-            try
+            using (MySqlConnection connection = DBConnection.GetNewConnection())
             {
-                DBConnection.InitializeDatabase();
-
-                using (var cmd = new MySqlCommand(DBQueries.GetUsersQuery, DBConnection.dbconnection))
-                using (var reader = cmd.ExecuteReader())
+                // --- UPDATED ---
+                using (MySqlCommand command = new MySqlCommand(DBQueries.GetUsersListQuery, connection))
                 {
-                    while (reader.Read())
+                    try
                     {
-                        int userId = reader.GetInt32("User_ID");
-                        string userName = reader.GetString("User_Name");
-                        userNames.Add(userId, userName);
+                        connection.Open();
+                        MySqlDataReader reader = command.ExecuteReader();
+                        while (reader.Read())
+                        {
+                            users.Add(reader.GetInt32("userId"), reader.GetString("userName"));
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Error retrieving user list: {ex.Message}");
                     }
                 }
             }
-            catch (Exception ex)
-            {
-                // Handle exceptions (e.g., log the error)
-                Console.WriteLine($"Error retrieving user names: {ex.Message}");
-            }
-            return userNames;
+            return users;
         }
 
         //Consultant Schedules
@@ -45,14 +48,17 @@ namespace Appointment_Manager.Controller
             DataTable dt = new DataTable();
             try
             {
-                DBConnection.InitializeDatabase();
-                using (MySqlCommand consultantCMD = new MySqlCommand(DBQueries.GetUserSchedule, DBConnection.dbconnection))
+                using (MySqlConnection connection = DBConnection.GetNewConnection())
                 {
-                    consultantCMD.Parameters.AddWithValue("@userName", userName);
-                    consultantCMD.Parameters.AddWithValue("@userId", userId);
-                    using (MySqlDataAdapter adapter = new MySqlDataAdapter(consultantCMD))
+
+                    using (MySqlCommand consultantCMD = new MySqlCommand(DBQueries.GetUserSchedule, connection))
                     {
-                        adapter.Fill(dt);
+                        consultantCMD.Parameters.AddWithValue("@userName", userName);
+                        consultantCMD.Parameters.AddWithValue("@userId", userId);
+                        using (MySqlDataAdapter adapter = new MySqlDataAdapter(consultantCMD))
+                        {
+                            adapter.Fill(dt);
+                        }
                     }
                 }
             }
