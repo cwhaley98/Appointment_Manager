@@ -120,22 +120,6 @@ namespace Appointment_Manager.Model.Database
             }
         }
 
-        public static string GetCustomersListQuery
-        {
-            get
-            {
-                return @"SELECT customerId, customerName FROM customer ORDER BY customerName;";
-            }
-        }
-
-        public static string GetUsersListQuery
-        {
-            get
-            {
-                return @"SELECT userId, userName FROM user ORDER BY userName;";
-            }
-        }
-
         // --- Customer & User Lists (for ComboBoxes) ---
 
         /// <summary>
@@ -157,6 +141,18 @@ namespace Appointment_Manager.Model.Database
             get
             {
                 return @"SELECT userId, userName FROM user ORDER BY userName;";
+            }
+        }
+
+        /// <summary>
+        /// Gets a user's details by username for login validation.
+        /// </summary>
+        public static string ValidateUserQuery
+        {
+            get
+            {
+                // Selects the password hash and user info
+                return "SELECT userId, userName, password FROM user WHERE userName = @username;";
             }
         }
 
