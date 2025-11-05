@@ -388,5 +388,4 @@ namespace Appointment_Manager.Model.Database
             } 
         }
     }
-    }
 }

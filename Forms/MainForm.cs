@@ -406,14 +406,14 @@ namespace Appointment_Manager.Forms
 
                     if (formState == FormState.TypesByMonth)
                     {
-                        comboBoxMonths.Visible = true:
+                        comboBoxMonths.Visible = true;
                         monthsLabel.Visible = true;
                     }
                     else if (formState == FormState.Constultants)
                     {
                         comboBoxConsultants.Visible = true;
                         consultantsLabel.Visible = true;
-                        var users = userController.GetAllUsersNames();
+                        var users = userController.GetUsersAsList();
                         comboBoxConsultants.DataSource = new BindingSource(users, null);
                     }
                     else

@@ -1,4 +1,6 @@
 ﻿using Appointment_Manager.Model.Database;
+using Appointment_Manager.Controller.Utils;
+using System.Windows.Forms;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
@@ -286,7 +288,6 @@ namespace Appointment_Manager.Controller
                 }
             }
             return customers;
-        }
         }
         #endregion
     }
