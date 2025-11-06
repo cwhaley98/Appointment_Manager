@@ -41,9 +41,22 @@ namespace Appointment_Manager.Model.Database
 
                             if (tableCount < 6 || userCount == 0)
                             {
-                                using (MySqlCommand initCMD = new MySqlCommand(DBQueries.InitializeDatabaseQuery, connection))
+                                string[] initQueries = DBQueries.InitializeDatabaseQuery.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+
+                                // Loop and execute each command one by one
+                                foreach (string query in initQueries)
                                 {
-                                    initCMD.ExecuteNonQuery();
+                                    // Trim() removes extra whitespace/newlines.
+                                    // The SQL comments (--) will be ignored by the server.
+                                    string trimmedQuery = query.Trim();
+
+                                    if (!string.IsNullOrEmpty(trimmedQuery))
+                                    {
+                                        using (MySqlCommand initCMD = new MySqlCommand(trimmedQuery, connection))
+                                        {
+                                            initCMD.ExecuteNonQuery();
+                                        }
+                                    }
                                 }
                             }
                             success = true;

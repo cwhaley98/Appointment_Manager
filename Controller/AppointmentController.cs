@@ -206,7 +206,7 @@ namespace Appointment_Manager.Controller
         public void ValidateUpcomingAppointments()
         {
             DateTime nowUTC = DateTime.UtcNow;
-            DateTime nowEST = TimeUtil.ConvertToEST(nowUTC); // Convert current time to EST for DB comparison
+            DateTime nowEST = TimeUtil.ConvertToESTFromUTC(nowUTC); // Convert current time to EST for DB comparison
             DateTime fifteenMinutesFromNowEST = nowEST.AddMinutes(15);
 
             using (MySqlConnection connection = DBConnection.GetNewConnection())

@@ -19,6 +19,7 @@ namespace Appointment_Manager.Controller
         {
             using (MySqlConnection connection = DBConnection.GetNewConnection())
             {
+                connection.Open();
                 MySqlDataReader reader;
                 using (var loginCMD = new MySqlCommand(DBQueries.ValidateUserQuery, connection))
                 {
@@ -35,8 +36,6 @@ namespace Appointment_Manager.Controller
                             int userId = reader.GetInt32("UserID");
                             UserSessions.CurrentUserId = userId;
                         }
-                        MainForm mainForm = new MainForm();
-                        mainForm.Show();
                         return true;
                     }
                     else

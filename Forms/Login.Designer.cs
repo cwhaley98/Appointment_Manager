@@ -98,6 +98,7 @@
             exit_btn.TabIndex = 5;
             exit_btn.Text = "Exit";
             exit_btn.UseVisualStyleBackColor = true;
+            exit_btn.Click += exit_btn_Click;
             // 
             // login_btn
             // 
@@ -107,6 +108,7 @@
             login_btn.TabIndex = 6;
             login_btn.Text = "Login";
             login_btn.UseVisualStyleBackColor = true;
+            login_btn.Click += login_btn_Click;
             // 
             // dbLabel
             // 

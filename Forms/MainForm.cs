@@ -37,13 +37,18 @@ namespace Appointment_Manager.Forms
         private string selectedUserName = UserSessions.CurrentUserName;
 
         private bool isUpdate = false;
-        public MainForm()
+
+        private Form _loginForm;
+        public MainForm(Form loginForm)
         {
             InitializeComponent();
             UpdateButtons();
             RefreshTable();
             SetupCustomerDGV();
             RefreshTableSettings();
+            _loginForm = loginForm;
+
+            this.FormClosed += new FormClosedEventHandler(MainForm_FormClosed);
 
             // --- Lambda Event Subscriptions ---
 
@@ -78,6 +83,7 @@ namespace Appointment_Manager.Forms
                     false
                 );
             };
+            
 
             // --- End Lambda Event Subscriptions ---
         }
@@ -466,9 +472,20 @@ namespace Appointment_Manager.Forms
 
         private void LogOutMenuItem_Click(object sender, EventArgs e)
         {
-            this.Hide();
-            var loginForm = new Login();
-            loginForm.Show();
+            _loginForm.Show(); // Show the original, hidden login form
+            this.Close();     // Close this MainForm
+        }
+
+        // This handles the user clicking the "X" button
+        private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            // If the login form is NOT visible, it means the user clicked "X"
+            // and didn't log out. We should exit the whole app.
+            if (!_loginForm.Visible)
+            {
+                // This closes the hidden Login form, which exits the application
+                _loginForm.Close();
+            }
         }
     }
 }

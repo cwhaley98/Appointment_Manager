@@ -57,5 +57,18 @@ namespace Appointment_Manager.Controller.Utils
             DateTime localTime = TimeZoneInfo.ConvertTime(estTime, BusinessTimeZone, userTimeZone);
             return localTime;
         }
+
+        /// <summary>
+        /// Converts a time from UTC to Eastern Standard Time (EST) for database storage.
+        /// </summary>
+        /// <param name="utcTime">The time in UTC.</param>
+        /// <returns>The equivalent time in EST.</returns>
+        public static DateTime ConvertToESTFromUTC(DateTime utcTime)
+        {
+            // This is the correct conversion:
+            // Source Time Kind = Utc, Source Time Zone = TimeZoneInfo.Utc
+            DateTime estTime = TimeZoneInfo.ConvertTime(utcTime, TimeZoneInfo.Utc, BusinessTimeZone);
+            return estTime;
+        }
     }
 }

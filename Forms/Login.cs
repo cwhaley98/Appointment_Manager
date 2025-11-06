@@ -43,6 +43,7 @@ namespace Appointment_Manager
                 string username = username_textbox.Text;
                 string password = password_textbox.Text;
                 var loginAttempt = loginController.ValidateLogin(username, password);
+
                 if (loginAttempt)
                 {
                     //Capture the user's local time zone and store it in the session
@@ -58,12 +59,24 @@ namespace Appointment_Manager
                     {
                         Console.WriteLine($"Failed to write to log file: {ex.Message}.");
                     }
+                    var mainForm = new MainForm(this);
+                    mainForm.Show();
+
                     this.Hide();
                 }
+                else
+                {
+
+                    // This tells the user why the login failed.
+                    MessageBox.Show("Login failed. Please check your username and password.",
+                                    "Login Error",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Error);
+                }
             }
-            catch (MySqlException)
+            catch (Exception ex)
             {
-                MessageBox.Show("Database connection error.");
+                MessageBox.Show("Database connection error: " + ex.Message);
             }
             finally
             {
