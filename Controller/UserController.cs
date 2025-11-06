@@ -15,7 +15,7 @@ namespace Appointment_Manager.Controller
         /// Retrieves a list of all users (consultants) to populate ComboBoxes.
         /// </summary>
         /// <returns>A Dictionary where Key is UserId and Value is UserName.</returns>
-        public Dictionary<int, string> GetUsersAsList()
+        public Dictionary<int, string> GetUsersAsList(string query)
         {
             var users = new Dictionary<int, string>();
 

@@ -198,7 +198,6 @@ namespace Appointment_Manager.Forms
 
             //Explicitly show calendarView when navigating to Appointments tab and load current days appointments by default
             calendarView.Visible = true;
-            LoadDailyAppointments(DateTime.Today); // Loads today's appointments
         }
 
         private void calendarView_DateSelected(object sender, DateRangeEventArgs e)
@@ -419,7 +418,7 @@ namespace Appointment_Manager.Forms
                     {
                         comboBoxConsultants.Visible = true;
                         consultantsLabel.Visible = true;
-                        var users = userController.GetUsersAsList();
+                        var users = userController.GetUsersAsList(DBQueries.GetUsersListQuery);
                         comboBoxConsultants.DataSource = new BindingSource(users, null);
                     }
                     else

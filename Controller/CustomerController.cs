@@ -270,19 +270,23 @@ namespace Appointment_Manager.Controller
         {
             var customers = new Dictionary<int, string>();
 
-            // --- UPDATED ---
-            // The query string is now referenced from the static DBQueries class
-            // string query = "SELECT customerId, customerName FROM customer ORDER BY customerName;"; 
 
             using (MySqlConnection connection = DBConnection.GetNewConnection())
             {
-                // --- UPDATED ---
                 using (MySqlCommand command = new MySqlCommand(DBQueries.GetCustomersListQuery, connection))
                 {
                     try
                     {
                         connection.Open();
-                        // ... (existing code) ...
+                        using (MySqlDataReader reader = command.ExecuteReader())
+                        {
+                            // Loop through each row in the result set
+                            while (reader.Read())
+                            {
+                                // Add the customerId (Key) and customerName (Value) to the dictionary
+                                customers.Add(reader.GetInt32("customerId"), reader.GetString("customerName"));
+                            }
+                        }
                     }
                     catch (Exception ex)
                     {
