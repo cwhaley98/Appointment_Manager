@@ -317,7 +317,7 @@ namespace Appointment_Manager.Model.Database
         // Customer CRUD (Address)
         public static string UpdateAddressQuery 
         { get 
-            { return "UPDATE address SET address = @Address, cityId = @CityId, " +
+            { return "UPDATE address SET address = @Address, address2 = @Address2, cityId = @CityId, " +
                     "postalCode = @PostalCode, phone = @PhoneNumber, " +
                     "lastUpdate = NOW(), lastUpdateBy = @LastUpdateBy " +
                     "WHERE addressId = @AddressId;"; 
@@ -331,8 +331,8 @@ namespace Appointment_Manager.Model.Database
         }
         public static string InsertAddressQuery 
         { get 
-            { return "INSERT INTO address (addressId, address, cityId, postalCode, phone, createDate, createdBy, lastUpdate, lastUpdateBy) " +
-                    "VALUES (@AddressId, @Address, @CityId, @PostalCode, @PhoneNumber, " +
+            { return "INSERT INTO address (addressId, address, address2, cityId, postalCode, phone, createDate, createdBy, lastUpdate, lastUpdateBy) " +
+                    "VALUES (@AddressId, @Address, @Address2, @CityId, @PostalCode, @PhoneNumber, " +
                     "NOW(), @CreatedBy, NOW(), @LastUpdateBy);"; 
             } 
         }

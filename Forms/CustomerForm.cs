@@ -37,7 +37,7 @@ namespace Appointment_Manager.Forms
         {
             if (!FieldsAreValid())
             {
-                MessageBox.Show("Please fill in all fields.");
+                MessageBox.Show("Please correct all highlighted fields.");
                 return;
             }
             var customerData = new Dictionary<string, string>
@@ -94,13 +94,19 @@ namespace Appointment_Manager.Forms
             countryId = row.Cells["countryId"].Value.ToString();
         }
 
-        private bool FieldsAreValid() => FormValidations.ValidateTextBox(name_textbox, "string", errorProvider)
-                && FormValidations.ValidateTextBox(address_textbox, "string", errorProvider)
-                && FormValidations.ValidateTextBox(city_textbox, "string", errorProvider)
-                && FormValidations.ValidateTextBox(postalcode_textbox, "string", errorProvider)
-                && FormValidations.ValidateTextBox(country_textbox, "string", errorProvider)
-                && FormValidations.ValidateTextBox(phone_textbox, "phone", errorProvider);
+        private bool FieldsAreValid()
+        {
+            // This prevents short-circuiting and forces every validation to run.
+            bool valid = true;
+            valid &= FormValidations.ValidateTextBox(name_textbox, "string", errorProvider);
+            valid &= FormValidations.ValidateTextBox(address_textbox, "string", errorProvider);
+            valid &= FormValidations.ValidateTextBox(city_textbox, "string", errorProvider);
+            valid &= FormValidations.ValidateTextBox(postalcode_textbox, "string", errorProvider);
+            valid &= FormValidations.ValidateTextBox(country_textbox, "string", errorProvider);
+            valid &= FormValidations.ValidateTextBox(phone_textbox, "phone", errorProvider);
 
+            return valid;
+        }
 
         #endregion
 
@@ -136,7 +142,7 @@ namespace Appointment_Manager.Forms
 
         private void phone_textbox_TextChanged(object sender, EventArgs e)
         {
-            save_btn.Enabled = FormValidations.ValidateTextBox(phone_textbox, "string", errorProvider);
+            save_btn.Enabled = FormValidations.ValidateTextBox(phone_textbox, "phone", errorProvider);
         }
         #endregion
     }
