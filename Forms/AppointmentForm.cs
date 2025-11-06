@@ -47,10 +47,26 @@ namespace Appointment_Manager.Forms
 
         private void save_btn_Click(object sender, EventArgs e)
         {
+            // --- Special check for weekend ---
+            DayOfWeek selectedDay = AppointmentDatePicker.Value.DayOfWeek;
+            if (selectedDay == DayOfWeek.Saturday || selectedDay == DayOfWeek.Sunday)
+            {
+                // Show the specific error message IN the popup
+                MessageBox.Show("Appointments cannot be scheduled on Saturday or Sunday.",
+                                "Invalid Date",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Warning);
+
+                // Set the error provider on the control
+                errorProvider.SetError(AppointmentDatePicker, "Appointments cannot be scheduled on Saturday or Sunday.");
+                return; // Stop the save
+            }
+            // --- END of special check ---
+
             //Field Validation
             if (!FieldsAreValid())
             {
-                MessageBox.Show("Please select a value for all fields marked with an error.", "Invalid input.", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Please correct the fields marked with an error.", "Invalid input.", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -328,18 +344,6 @@ namespace Appointment_Manager.Forms
             {
                 errorProvider.SetError(AppointmentTimeComboBox, "Please select a time.");
                 valid = false;
-            }
-            
-            //Validate the selected day is a weekday
-            DayOfWeek selectedDay = AppointmentDatePicker.Value.DayOfWeek;
-            if (selectedDay == DayOfWeek.Saturday ||  selectedDay == DayOfWeek.Sunday)
-            {
-                errorProvider.SetError(AppointmentDatePicker, "Appointments cannot be scheduled on Saturday or Sunday. Choose a day betwen Monday and Friday.");
-                valid = false;
-            }
-            else
-            {
-                errorProvider.SetError(AppointmentDatePicker, "");
             }
 
             // === OPTIONAL TextBoxes ===
