@@ -165,7 +165,9 @@ namespace Appointment_Manager.Forms
                 errorProvider.SetError(comboBox, "");
 
                 // Get the selected customer's ID
-                int customerId = (int)comboBox.SelectedValue;
+                var selectedCustomer = (KeyValuePair<int, string>)comboBox.SelectedItem;
+
+                int customerId = selectedCustomer.Key;
 
                 // Use the controller to fetch the phone number
                 string phone = customerController.GetCustomerPhone(customerId);
