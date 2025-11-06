@@ -329,6 +329,18 @@ namespace Appointment_Manager.Forms
                 errorProvider.SetError(AppointmentTimeComboBox, "Please select a time.");
                 valid = false;
             }
+            
+            //Validate the selected day is a weekday
+            DayOfWeek selectedDay = AppointmentDatePicker.Value.DayOfWeek;
+            if (selectedDay == DayOfWeek.Saturday ||  selectedDay == DayOfWeek.Sunday)
+            {
+                errorProvider.SetError(AppointmentDatePicker, "Appointments cannot be scheduled on Saturday or Sunday. Choose a day betwen Monday and Friday.");
+                valid = false;
+            }
+            else
+            {
+                errorProvider.SetError(AppointmentDatePicker, "");
+            }
 
             // === OPTIONAL TextBoxes ===
             // Clear any errors from them since they are not required.
@@ -336,6 +348,8 @@ namespace Appointment_Manager.Forms
             errorProvider.SetError(DescriptionTextBox, "");
             errorProvider.SetError(contactTextBox, "");
             errorProvider.SetError(urlTextBox, "");
+
+            
 
             return valid;
         }
