@@ -51,6 +51,7 @@
             calendarView = new MonthCalendar();
             errorProvider = new ErrorProvider(components);
             successProvider = new ErrorProvider(components);
+            showAll_btn = new Button();
             menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)mainDGV).BeginInit();
             ((System.ComponentModel.ISupportInitialize)errorProvider).BeginInit();
@@ -236,11 +237,22 @@
             successProvider.ContainerControl = this;
             successProvider.Icon = (Icon)resources.GetObject("successProvider.Icon");
             // 
+            // showAll_btn
+            // 
+            showAll_btn.Location = new Point(1152, 207);
+            showAll_btn.Name = "showAll_btn";
+            showAll_btn.Size = new Size(108, 54);
+            showAll_btn.TabIndex = 14;
+            showAll_btn.Text = "Show All Appointments";
+            showAll_btn.UseVisualStyleBackColor = true;
+            showAll_btn.Click += showAll_btn_Click;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1397, 581);
+            Controls.Add(showAll_btn);
             Controls.Add(calendarView);
             Controls.Add(consultantsLabel);
             Controls.Add(comboBoxConsultants);
@@ -287,5 +299,6 @@
         private MonthCalendar calendarView;
         private ErrorProvider errorProvider;
         private ErrorProvider successProvider;
+        private Button showAll_btn;
     }
 }

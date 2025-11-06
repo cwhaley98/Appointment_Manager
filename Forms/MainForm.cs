@@ -83,7 +83,7 @@ namespace Appointment_Manager.Forms
                     false
                 );
             };
-            
+
 
             // --- End Lambda Event Subscriptions ---
         }
@@ -383,6 +383,7 @@ namespace Appointment_Manager.Forms
             comboBoxConsultants.Visible = false;
 
             calendarView.Visible = false;
+            showAll_btn.Hide();
 
             switch (formState)
             {
@@ -399,6 +400,7 @@ namespace Appointment_Manager.Forms
                     delete_btn.Text = "Delete Appointment";
 
                     calendarView.Visible = true;
+                    showAll_btn.Show();
 
                     break;
 
@@ -486,6 +488,11 @@ namespace Appointment_Manager.Forms
                 // This closes the hidden Login form, which exits the application
                 _loginForm.Close();
             }
+        }
+
+        private void showAll_btn_Click(object sender, EventArgs e)
+        {
+            RefreshTable();
         }
     }
 }
