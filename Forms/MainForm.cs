@@ -241,7 +241,7 @@ namespace Appointment_Manager.Forms
                 case FormState.TypesByMonth:
                     // This is the specific logic for the TypesByMonth report
                     getDataFunction = () => appointmentController.GetAppointmentTypesByMonth(selectedMonth, selectedYear);
-                    requiresSetupDGV = true;
+                    requiresSetupDGV = false;
                     break;
 
                 case FormState.Constultants:
@@ -470,6 +470,9 @@ namespace Appointment_Manager.Forms
 
             mainDGV.Columns["appointmentId"].Visible = false;
             mainDGV.Columns["userId"].Visible = false;
+
+            mainDGV.Columns["customerName"].DisplayIndex = 0;
+            mainDGV.Columns["userName"].DisplayIndex = 1;
         }
         #endregion
 

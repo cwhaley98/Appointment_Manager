@@ -210,6 +210,21 @@ namespace Appointment_Manager.Model.Database
         }
 
         /// <summary>
+        /// Report: Counts appointment types for a SELECTED month.
+        /// </summary>
+        public static string ReportTypesBySelectedMonthQuery
+        {
+            get
+            {
+                return "SELECT MONTHNAME(start) AS Month, type AS Type, COUNT(*) AS Total " +
+                    "FROM appointment " +
+                    "WHERE MONTH(start) = @Month " +
+                    "GROUP BY MONTH(start), MONTHNAME(start), type " +
+                    "ORDER BY Type;";
+            }
+        }
+
+        /// <summary>
         /// Report: Gets the full schedule for a single consultant.
         /// </summary>
         public static string ReportConsultantScheduleQuery

@@ -257,11 +257,13 @@ namespace Appointment_Manager.Controller
             using (MySqlConnection connection = DBConnection.GetNewConnection())
             {
                 // This query is simple and doesn't need date filtering for this requirement
-                using (MySqlCommand command = new MySqlCommand(DBQueries.ReportTypesByMonthQuery, connection))
+                using (MySqlCommand command = new MySqlCommand(DBQueries.ReportTypesBySelectedMonthQuery, connection))
                 {
 
                     try
                     {
+                        command.Parameters.AddWithValue("@Month", month);
+
                         connection.Open();
                         MySqlDataAdapter adapter = new MySqlDataAdapter(command);
                         adapter.Fill(dt);
