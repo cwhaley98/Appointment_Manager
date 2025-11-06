@@ -64,15 +64,6 @@ namespace Appointment_Manager
 
                     this.Hide();
                 }
-                else
-                {
-
-                    // This tells the user why the login failed.
-                    MessageBox.Show("Login failed. Please check your username and password.",
-                                    "Login Error",
-                                    MessageBoxButtons.OK,
-                                    MessageBoxIcon.Error);
-                }
             }
             catch (Exception ex)
             {
