@@ -48,8 +48,8 @@ namespace Appointment_Manager.Model.Database
             get
             {
                 // Uses the base query and filters by a 24-hour window (in EST)
-                return GetAppointmentsQuery + " WHERE appointment.start < @EndOfDay " +
-                    "AND appointment.end > @StartOfDay " +
+                return GetAppointmentsQuery + " WHERE appointment.start >= @StartOfDay " +
+                    "AND appointment.start < @EndOfDay " +
                     "ORDER BY start ASC;";
             }
         }
@@ -81,9 +81,9 @@ namespace Appointment_Manager.Model.Database
             {
                 return @"
                     INSERT INTO appointment 
-                    (customerId, userId, title, description, location, contact, type, url, start, end, createDate, createdBy, lastUpdate, lastUpdateBy)
+                    (customerId, userId, title, description, location, contact, type, url, start, end, phone, createDate, createdBy, lastUpdate, lastUpdateBy)
                     VALUES
-                    (@CustomerId, @UserId, @Title, @Description, @Location, @Contact, @Type, @URL, @Start, @End, NOW(), @CreatedBy, NOW(), @LastUpdateBy);
+                    (@CustomerId, @UserId, @Title, @Description, @Location, @Contact, @Type, @URL, @Start, @End, @Phone, NOW(), @CreatedBy, NOW(), @LastUpdateBy);
                 ";
             }
         }
@@ -107,6 +107,7 @@ namespace Appointment_Manager.Model.Database
                         url = @URL,
                         start = @Start,
                         end = @End,
+                        phone = @Phone,
                         lastUpdate = NOW(),
                         lastUpdateBy = @LastUpdateBy
                     WHERE appointmentId = @AppointmentId;

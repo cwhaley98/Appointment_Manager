@@ -1,5 +1,6 @@
 ﻿using Appointment_Manager.Controller;
 using Appointment_Manager.Controller.Utils;
+using Appointment_Manager.Model.Database;
 using Appointment_Manager.Model.Enums;
 using System;
 using System.Collections.Generic;
@@ -81,7 +82,11 @@ namespace Appointment_Manager.Forms
                 { "Location", LocationComboBox.SelectedItem.ToString() },
                 { "Type", VisitTypeComboBox.SelectedItem.ToString() },
                 { "Start", startTimeEST }, // Pass the converted EST time
-                { "End", endTimeEST }      // Pass the converted EST time
+                { "End", endTimeEST },      // Pass the converted EST time
+                { "Title", titleTextBox.Text.Trim() },
+                { "Contact", contactTextBox.Text.Trim() },
+                { "URL", urlTextBox.Text.Trim() },
+                {"Phone", phoneTextBox.Text.Trim() }
             };
 
             bool success = appointmentController.SaveAppointment(appointmentData, IsUpdate);
@@ -171,6 +176,31 @@ namespace Appointment_Manager.Forms
             PopulateTimeComboBox();
 
 
+            // Populate Location ComboBox from Locations.cs Enum
+            var locations = Enum.GetNames(typeof(Locations))
+                                .Select(l => l.Replace("_", " "))
+                                .ToList();
+            LocationComboBox.DataSource = locations;
+
+            // Populate Visit Type ComboBox from VisitTypes.cs Enum
+            var visitTypes = Enum.GetNames(typeof(VisitTypes))
+                                 .Select(v => v.Replace("_", " "))
+                                 .ToList();
+            VisitTypeComboBox.DataSource = visitTypes;
+
+            // Populate Customer ComboBox from Database
+            var customers = customerController.GetCustomersAsList(DBQueries.GetCustomersListQuery);
+            CustomerNameComboBox.DataSource = new BindingSource(customers, null);
+            CustomerNameComboBox.DisplayMember = "Value"; // The customerName
+            CustomerNameComboBox.ValueMember = "Key";   // The customerId
+
+            // Populate Consultant ComboBox from Database
+            var users = userController.GetUsersAsList(DBQueries.GetUsersListQuery);
+            ConsultantComboBox.DataSource = new BindingSource(users, null);
+            ConsultantComboBox.DisplayMember = "Value"; // The userName
+            ConsultantComboBox.ValueMember = "Key";   // The userId
+
+
             //Set default (unselected) state
             CustomerNameComboBox.SelectedIndex = -1;
             ConsultantComboBox.SelectedIndex = -1;
@@ -183,7 +213,6 @@ namespace Appointment_Manager.Forms
             LocationComboBox.SelectedIndexChanged += LocationComboBox_SelectedIndexChanged;
             VisitTypeComboBox.SelectedIndexChanged += VisitTypeComboBox_SelectedIndexChanged;
             AppointmentTimeComboBox.SelectedIndexChanged += AppointmentTimeComboBox_SelectedIndexChanged;
-
         }
 
         /// <summary>
@@ -232,6 +261,7 @@ namespace Appointment_Manager.Forms
             ConsultantComboBox.SelectedValue = (int)row.Cells["UserId"].Value;
 
             // --- SPLIT DATETIME FOR UI CONTROLS ---
+            AppointmentDatePicker.MinDate = DateTime.MinValue;
             AppointmentDatePicker.Value = startTimeLocal.Date;
 
             // Find the matching TimeSpan in the ComboBox items
@@ -256,6 +286,9 @@ namespace Appointment_Manager.Forms
         private bool FieldsAreValid()
         {
             bool valid = true;
+
+            //Validate Phone Number
+            valid &= FormValidations.ValidateTextBox(phoneTextBox, "phone", errorProvider);
 
             // Validate ComboBoxes
             if (CustomerNameComboBox.SelectedIndex == -1)
@@ -284,12 +317,12 @@ namespace Appointment_Manager.Forms
                 valid = false;
             }
 
-            // Validate TextBox
-            if (string.IsNullOrWhiteSpace(DescriptionTextBox.Text))
-            {
-                errorProvider.SetError(DescriptionTextBox, "Description cannot be empty.");
-                valid = false;
-            }
+            // === OPTIONAL TextBoxes ===
+            // Clear any errors from them since they are not required.
+            errorProvider.SetError(titleTextBox, "");
+            errorProvider.SetError(DescriptionTextBox, "");
+            errorProvider.SetError(contactTextBox, "");
+            errorProvider.SetError(urlTextBox, "");
 
             return valid;
         }
