@@ -378,7 +378,8 @@ namespace Appointment_Manager.Model.Database
         public static string GetCustomerTableQuery 
         { get 
             { return "SELECT customer.customerId, customer.customerName, " +
-                    "address.address, address.phone, city.city, country.country, " +
+                    "address.address, address.address2, address.postalCode, " +
+                    "address.phone, city.city, country.country, " +
                     "customer.addressId, city.cityId, country.countryId " +
                     "FROM customer " +
                     "JOIN address ON customer.addressId = address.addressId " +

@@ -19,30 +19,52 @@ namespace Appointment_Manager.Controller
         {
             using (MySqlConnection connection = DBConnection.GetNewConnection())
             {
-                connection.Open();
-                MySqlDataReader reader;
-                using (var loginCMD = new MySqlCommand(DBQueries.ValidateUserQuery, connection))
+                try
                 {
-                    loginCMD.Parameters.AddWithValue("@username", username);
-                    loginCMD.Parameters.AddWithValue("@password", password);
-                    reader = loginCMD.ExecuteReader();
-                    if (reader.HasRows)
+                    connection.Open();
+                    MySqlDataReader reader;
+                    using (var loginCMD = new MySqlCommand(DBQueries.ValidateUserQuery, connection))
                     {
-                        LoginSuccessful();
-                        UserActivity.LogUserActivity(username); //Logs user information
-                        UserSessions.CurrentUserName = username; //Sets current user for data logging
-                        while (reader.Read())
+                        // The query only needs the username, as it's just fetching the user's data
+                        loginCMD.Parameters.AddWithValue("@username", username);
+
+                        reader = loginCMD.ExecuteReader();
+
+                        // Use reader.Read() to check if a user was found AND move to that row
+                        if (reader.Read())
                         {
-                            int userId = reader.GetInt32("UserID");
-                            UserSessions.CurrentUserId = userId;
+                            // A user was found! Check the password.
+                            string dbPassword = reader.GetString("password"); // Get password from DB
+
+                            // Compare the user-supplied password with the database password
+                            if (password == dbPassword)
+                            {
+                                // --- SUCCESS! ---
+                                // Passwords match. Log them in.
+                                LoginSuccessful();
+                                UserActivity.LogUserActivity(username);
+                                UserSessions.CurrentUserName = username;
+
+                                int userId = reader.GetInt32("userId");
+                                UserSessions.CurrentUserId = userId;
+
+                                return true;
+                            }
                         }
-                        return true;
-                    }
-                    else
-                    {
+
+                        // If we get here, it means one of two things:
+                        // 1. The reader.Read() failed (no user found with that name)
+                        // 2. The passwords did not match
+                        // In either case, the login fails.
+
                         LoginFail();
                         return false;
                     }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error during login validation: " + ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
                 }
             }
         }

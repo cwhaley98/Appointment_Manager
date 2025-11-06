@@ -16,7 +16,7 @@ namespace Appointment_Manager.Controller
     {
         #region Add, Update, Delete Customers
 
-        public void SaveCustomer(Dictionary<string, string> customerData,  bool isUpdate)
+        public bool SaveCustomer(Dictionary<string, string> customerData,  bool isUpdate)
         {
             using (MySqlConnection connection = DBConnection.GetNewConnection())
             try
@@ -39,10 +39,12 @@ namespace Appointment_Manager.Controller
                         throw;
                     }
                 }
+                return true;
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Error saving customer data: {ex.Message}");
+                    return false;
             }
         }
 
@@ -143,6 +145,7 @@ namespace Appointment_Manager.Controller
             {
                 addressInsertCMD.Parameters.AddWithValue("@AddressId", addressId);
                 addressInsertCMD.Parameters.AddWithValue("@Address", customerData["CustomerAddress"]);
+                addressInsertCMD.Parameters.AddWithValue("@Address2", customerData["CustomerAddress2"]);
                 addressInsertCMD.Parameters.AddWithValue("@CityId", currentCityId);
                 addressInsertCMD.Parameters.AddWithValue("@PostalCode", customerData["CustomerPostalCode"]);
                 addressInsertCMD.Parameters.AddWithValue("@PhoneNumber", customerData["CustomerPhone"]);

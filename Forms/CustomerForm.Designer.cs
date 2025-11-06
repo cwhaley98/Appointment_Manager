@@ -32,7 +32,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CustomerForm));
             CustomerFormTitle = new Label();
             name_label = new Label();
-            address_label = new Label();
+            addressLine1_label = new Label();
             city_label = new Label();
             postal_label = new Label();
             phoneNumber_label = new Label();
@@ -46,6 +46,8 @@
             country_label = new Label();
             country_textbox = new TextBox();
             errorProvider = new ErrorProvider(components);
+            addressLine2_label = new Label();
+            address2_textbox = new TextBox();
             ((System.ComponentModel.ISupportInitialize)errorProvider).BeginInit();
             SuspendLayout();
             // 
@@ -64,21 +66,21 @@
             // 
             name_label.AutoSize = true;
             name_label.Font = new Font("Segoe UI Semibold", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            name_label.Location = new Point(109, 187);
+            name_label.Location = new Point(109, 134);
             name_label.Name = "name_label";
             name_label.Size = new Size(50, 20);
             name_label.TabIndex = 1;
             name_label.Text = "Name";
             // 
-            // address_label
+            // addressLine1_label
             // 
-            address_label.AutoSize = true;
-            address_label.Font = new Font("Segoe UI Semibold", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            address_label.Location = new Point(109, 253);
-            address_label.Name = "address_label";
-            address_label.Size = new Size(63, 20);
-            address_label.TabIndex = 2;
-            address_label.Text = "Address";
+            addressLine1_label.AutoSize = true;
+            addressLine1_label.Font = new Font("Segoe UI Semibold", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            addressLine1_label.Location = new Point(109, 200);
+            addressLine1_label.Name = "addressLine1_label";
+            addressLine1_label.Size = new Size(105, 20);
+            addressLine1_label.TabIndex = 2;
+            addressLine1_label.Text = "Address Line 1";
             // 
             // city_label
             // 
@@ -112,7 +114,7 @@
             // 
             // name_textbox
             // 
-            name_textbox.Location = new Point(109, 210);
+            name_textbox.Location = new Point(109, 157);
             name_textbox.Name = "name_textbox";
             name_textbox.Size = new Size(339, 23);
             name_textbox.TabIndex = 6;
@@ -120,7 +122,7 @@
             // 
             // address_textbox
             // 
-            address_textbox.Location = new Point(109, 276);
+            address_textbox.Location = new Point(109, 223);
             address_textbox.Name = "address_textbox";
             address_textbox.Size = new Size(339, 23);
             address_textbox.TabIndex = 7;
@@ -193,11 +195,31 @@
             errorProvider.ContainerControl = this;
             errorProvider.Icon = (Icon)resources.GetObject("errorProvider.Icon");
             // 
+            // addressLine2_label
+            // 
+            addressLine2_label.AutoSize = true;
+            addressLine2_label.Font = new Font("Segoe UI Semibold", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            addressLine2_label.Location = new Point(109, 259);
+            addressLine2_label.Name = "addressLine2_label";
+            addressLine2_label.Size = new Size(107, 20);
+            addressLine2_label.TabIndex = 15;
+            addressLine2_label.Text = "Address Line 2";
+            // 
+            // address2_textbox
+            // 
+            address2_textbox.Location = new Point(109, 282);
+            address2_textbox.Name = "address2_textbox";
+            address2_textbox.Size = new Size(339, 23);
+            address2_textbox.TabIndex = 16;
+            address2_textbox.TextChanged += address2_textbox_TextChanged;
+            // 
             // CustomerForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(533, 582);
+            Controls.Add(address2_textbox);
+            Controls.Add(addressLine2_label);
             Controls.Add(country_textbox);
             Controls.Add(country_label);
             Controls.Add(save_btn);
@@ -210,7 +232,7 @@
             Controls.Add(phoneNumber_label);
             Controls.Add(postal_label);
             Controls.Add(city_label);
-            Controls.Add(address_label);
+            Controls.Add(addressLine1_label);
             Controls.Add(name_label);
             Controls.Add(CustomerFormTitle);
             Name = "CustomerForm";
@@ -223,7 +245,7 @@
         #endregion
         private Label CustomerFormTitle;
         private Label name_label;
-        private Label address_label;
+        private Label addressLine1_label;
         private Label city_label;
         private Label postal_label;
         private Label phoneNumber_label;
@@ -237,5 +259,7 @@
         private Label country_label;
         private TextBox country_textbox;
         private ErrorProvider errorProvider;
+        private TextBox address2_textbox;
+        private Label addressLine2_label;
     }
 }

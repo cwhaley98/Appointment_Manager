@@ -440,6 +440,7 @@ namespace Appointment_Manager.Forms
             mainDGV.Columns["address"].HeaderText = "Address";
             mainDGV.Columns["phone"].HeaderText = "Phone";
             mainDGV.Columns["city"].HeaderText = "City";
+            mainDGV.Columns["postalCode"].HeaderText = "Postal Code";
             mainDGV.Columns["country"].HeaderText = "Country";
 
             mainDGV.Columns["customerId"].Visible = false;

@@ -44,8 +44,9 @@ namespace Appointment_Manager.Forms
             {
                 { "CustomerName", name_textbox.Text },
                 { "CustomerAddress", address_textbox.Text },
+                { "CustomerAddress2", address2_textbox.Text },
                 { "CustomerCity", city_textbox.Text },
-                { "CustomerPostal", postalcode_textbox.Text },
+                { "CustomerPostalCode", postalcode_textbox.Text },
                 { "CustomerCountry", country_textbox.Text },
                 { "CustomerPhone", phone_textbox.Text },
                 { "AddressId", addressId },
@@ -54,16 +55,17 @@ namespace Appointment_Manager.Forms
                 { "CountryId", countryId }
             };
 
-            customerController.SaveCustomer(customerData, IsUpdate);
-            RefreshHandler?.Invoke(IsUpdate);
+            bool saveWasSuccessful = customerController.SaveCustomer(customerData, IsUpdate);
+            if (saveWasSuccessful)
+            {
+                RefreshHandler?.Invoke(IsUpdate);
 
-            this.Hide();
+                this.Close();
+            }
         }
 
         private void cancel_btn_Click(object sender, EventArgs e)
         {
-            // We can still call RefreshHandler on cancel if the user needs to see the main form settings restored.
-            RefreshHandler?.Invoke(false);
             this.Close();
         }
         #endregion
@@ -77,18 +79,19 @@ namespace Appointment_Manager.Forms
 
         public void PopulateCustomerFields(DataGridViewRow row)
         {
-            name_textbox.Text = row.Cells["Customer Name"].Value.ToString();
-            address_textbox.Text = row.Cells["Address"].Value.ToString();
-            city_textbox.Text = row.Cells["City"].Value.ToString();
-            postalcode_textbox.Text = row.Cells["Postal Code"].Value.ToString();
-            country_textbox.Text = row.Cells["Country"].Value.ToString();
-            phone_textbox.Text = row.Cells["Phone"].Value.ToString();
+            name_textbox.Text = row.Cells["customerName"].Value.ToString();
+            address_textbox.Text = row.Cells["address"].Value.ToString();
+            address2_textbox.Text = row.Cells["address2"].Value.ToString();
+            city_textbox.Text = row.Cells["city"].Value.ToString();
+            postalcode_textbox.Text = row.Cells["postalCode"].Value.ToString();
+            country_textbox.Text = row.Cells["country"].Value.ToString();
+            phone_textbox.Text = row.Cells["phone"].Value.ToString();
 
             //Set IDs
-            addressId = row.Cells["AddressId"].Value.ToString();
-            customerId = row.Cells["CustomerId"].Value.ToString();
-            cityId = row.Cells["CityId"].Value.ToString();
-            countryId = row.Cells["CountryId"].Value.ToString();
+            addressId = row.Cells["addressId"].Value.ToString();
+            customerId = row.Cells["customerId"].Value.ToString();
+            cityId = row.Cells["cityId"].Value.ToString();
+            countryId = row.Cells["countryId"].Value.ToString();
         }
 
         private bool FieldsAreValid() => FormValidations.ValidateTextBox(name_textbox, "string", errorProvider)
@@ -110,6 +113,10 @@ namespace Appointment_Manager.Forms
         private void address_textbox_TextChanged(object sender, EventArgs e)
         {
             save_btn.Enabled = FormValidations.ValidateTextBox(address_textbox, "string", errorProvider);
+        }
+
+        private void address2_textbox_TextChanged(Object sender, EventArgs e)
+        {
         }
 
         private void city_textbox_TextChanged(object sender, EventArgs e)
