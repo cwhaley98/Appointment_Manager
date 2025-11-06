@@ -204,7 +204,7 @@ namespace Appointment_Manager.Model.Database
             {
                 return "SELECT MONTHNAME(start) AS Month, type AS Type, COUNT(*) AS Total " +
                     "FROM appointment " +
-                    "GROUP BY MONTHNAME(start), type " +
+                    "GROUP BY MONTH(start), MONTHNAME(start), type " +
                     "ORDER BY MONTH(start), Type;";
             }
         }

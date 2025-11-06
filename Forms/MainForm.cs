@@ -60,7 +60,8 @@ namespace Appointment_Manager.Forms
                 HandleReportClick(
                     FormState.TypesByMonth,
                     // The data-fetching logic is now encapsulated in (Func<DataTable>)
-                    () => appointmentController.GetAppointmentTypesByMonth(selectedMonth, selectedYear)
+                    () => appointmentController.GetAppointmentTypesByMonth(selectedMonth, selectedYear),
+                    false
                 );
             };
 

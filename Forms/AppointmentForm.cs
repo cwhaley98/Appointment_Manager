@@ -277,7 +277,7 @@ namespace Appointment_Manager.Forms
             ConsultantComboBox.SelectedValue = (int)row.Cells["UserId"].Value;
 
             // --- SPLIT DATETIME FOR UI CONTROLS ---
-            AppointmentDatePicker.MinDate = DateTime.MinValue;
+            AppointmentDatePicker.MinDate = new DateTime(1753, 1, 1);
             AppointmentDatePicker.Value = startTimeLocal.Date;
 
             // Find the matching TimeSpan in the ComboBox items
