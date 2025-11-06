@@ -46,14 +46,14 @@
             // 
             // username_textbox
             // 
-            username_textbox.Location = new Point(125, 165);
+            username_textbox.Location = new Point(125, 135);
             username_textbox.Name = "username_textbox";
             username_textbox.Size = new Size(173, 23);
             username_textbox.TabIndex = 0;
             // 
             // password_textbox
             // 
-            password_textbox.Location = new Point(125, 242);
+            password_textbox.Location = new Point(125, 212);
             password_textbox.Name = "password_textbox";
             password_textbox.Size = new Size(173, 23);
             password_textbox.TabIndex = 1;
@@ -62,7 +62,7 @@
             // 
             Username.AutoSize = true;
             Username.Font = new Font("Segoe UI Semibold", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            Username.Location = new Point(170, 142);
+            Username.Location = new Point(170, 112);
             Username.Name = "Username";
             Username.Size = new Size(78, 20);
             Username.TabIndex = 2;
@@ -73,7 +73,7 @@
             // 
             Password.AutoSize = true;
             Password.Font = new Font("Segoe UI Semibold", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            Password.Location = new Point(170, 219);
+            Password.Location = new Point(170, 189);
             Password.Name = "Password";
             Password.Size = new Size(73, 20);
             Password.TabIndex = 3;
@@ -83,7 +83,7 @@
             // 
             AMS_Title.AutoSize = true;
             AMS_Title.Font = new Font("Segoe UI Semibold", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            AMS_Title.Location = new Point(38, 59);
+            AMS_Title.Location = new Point(38, 50);
             AMS_Title.Name = "AMS_Title";
             AMS_Title.Size = new Size(348, 30);
             AMS_Title.TabIndex = 4;

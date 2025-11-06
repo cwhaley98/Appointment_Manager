@@ -62,7 +62,7 @@
             menuStrip1.Items.AddRange(new ToolStripItem[] { CustomersTab, AppointmentsTab, ReportsMenuItem, LogOutMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(1302, 24);
+            menuStrip1.Size = new Size(1397, 24);
             menuStrip1.TabIndex = 0;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -157,14 +157,14 @@
             mainDGV.Location = new Point(12, 27);
             mainDGV.MultiSelect = false;
             mainDGV.Name = "mainDGV";
-            mainDGV.Size = new Size(1000, 480);
+            mainDGV.Size = new Size(1128, 480);
             mainDGV.TabIndex = 1;
             mainDGV.CellClick += mainDGV_CellClick;
             mainDGV.DataBindingComplete += mainDGV_DataBindingComplete;
             // 
             // viewReport_btn
             // 
-            viewReport_btn.Location = new Point(913, 513);
+            viewReport_btn.Location = new Point(1041, 513);
             viewReport_btn.Name = "viewReport_btn";
             viewReport_btn.Size = new Size(99, 48);
             viewReport_btn.TabIndex = 5;
@@ -185,7 +185,7 @@
             // 
             comboBoxMonths.FormattingEnabled = true;
             comboBoxMonths.Items.AddRange(new object[] { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" });
-            comboBoxMonths.Location = new Point(717, 531);
+            comboBoxMonths.Location = new Point(863, 531);
             comboBoxMonths.Name = "comboBoxMonths";
             comboBoxMonths.Size = new Size(161, 23);
             comboBoxMonths.TabIndex = 9;
@@ -194,7 +194,7 @@
             // monthsLabel
             // 
             monthsLabel.AutoSize = true;
-            monthsLabel.Location = new Point(772, 513);
+            monthsLabel.Location = new Point(920, 513);
             monthsLabel.Name = "monthsLabel";
             monthsLabel.Size = new Size(48, 15);
             monthsLabel.TabIndex = 10;
@@ -204,7 +204,7 @@
             // 
             comboBoxConsultants.FormattingEnabled = true;
             comboBoxConsultants.Items.AddRange(new object[] { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" });
-            comboBoxConsultants.Location = new Point(717, 531);
+            comboBoxConsultants.Location = new Point(863, 531);
             comboBoxConsultants.Name = "comboBoxConsultants";
             comboBoxConsultants.Size = new Size(161, 23);
             comboBoxConsultants.TabIndex = 11;
@@ -213,7 +213,7 @@
             // consultantsLabel
             // 
             consultantsLabel.AutoSize = true;
-            consultantsLabel.Location = new Point(761, 513);
+            consultantsLabel.Location = new Point(910, 513);
             consultantsLabel.Name = "consultantsLabel";
             consultantsLabel.Size = new Size(70, 15);
             consultantsLabel.TabIndex = 12;
@@ -221,7 +221,7 @@
             // 
             // calendarView
             // 
-            calendarView.Location = new Point(1047, 33);
+            calendarView.Location = new Point(1152, 33);
             calendarView.Name = "calendarView";
             calendarView.TabIndex = 13;
             calendarView.DateSelected += calendarView_DateSelected;
@@ -240,7 +240,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1302, 581);
+            ClientSize = new Size(1397, 581);
             Controls.Add(calendarView);
             Controls.Add(consultantsLabel);
             Controls.Add(comboBoxConsultants);
