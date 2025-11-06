@@ -81,20 +81,19 @@ namespace Appointment_Manager.Controller.Utils
                     }
                     break;
                 case "phone":
-                    Regex phoneRegex = new Regex(@"^(\+?\d{1,2}\s?)?((\(\d{1,3}\))|\d{1,3})[-.\s]?\d{1,4}[-.\s]?\d{1,4}([-.\s]?\d{1,9})?$");
-                    if (phoneRegex.IsMatch(textBox.Text))
+                    // This regex matches one or more digits, and allows dashes.
+                    // It ensures there is at least one digit.
+                    Regex phoneRegex = new Regex(@"^[\d-]*\d[\d-]*$");
+
+                    if (!string.IsNullOrWhiteSpace(textBox.Text) && phoneRegex.IsMatch(textBox.Text))
                     {
                         errorProvider.SetError(textBox, "");
                     }
                     else
                     {
-                        errorProvider.SetError(textBox, "Invalid phone number format");
+                        errorProvider.SetError(textBox, "Invalid format. Use only digits and dashes.");
                         valid = false;
                     }
-                    break;
-                default:
-                    errorProvider.SetError(textBox, "Unknown type");
-                    valid = false;
                     break;
             }
             textBox.BackColor = valid ? Color.White : Color.Salmon;
