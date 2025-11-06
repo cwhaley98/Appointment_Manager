@@ -236,6 +236,34 @@ namespace Appointment_Manager.Controller
 
         #region Helper Methods
 
+        public string GetCustomerPhone(int customerId)
+        {
+            string phone = "";
+            using (MySqlConnection connection = DBConnection.GetNewConnection())
+            {
+                using (MySqlCommand command = new MySqlCommand(DBQueries.GetCustomerPhoneQuery, connection))
+                {
+                    try
+                    {
+                        connection.Open();
+                        command.Parameters.AddWithValue("@CustomerId", customerId);
+
+                        // Use ExecuteScalar since we only expect one result
+                        object result = command.ExecuteScalar();
+                        if (result != null)
+                        {
+                            phone = result.ToString();
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Error retrieving customer phone: {ex.Message}");
+                    }
+                }
+            }
+            return phone;
+        }
+
         private int GetNewId(string query, MySqlConnection connection) =>
             Convert.ToInt32(new MySqlCommand(query, connection).ExecuteScalar()) + 1;
         #endregion

@@ -69,7 +69,6 @@ namespace Appointment_Manager.Controller
             command.Parameters.AddWithValue("@Title", data.ContainsKey("Title") ? data["Title"] : "N/A");
             command.Parameters.AddWithValue("@Contact", data.ContainsKey("Contact") ? data["Contact"] : "N/A");
             command.Parameters.AddWithValue("@URL", data.ContainsKey("URL") ? data["URL"] : "N/A");
-            command.Parameters.AddWithValue("@Phone", data.ContainsKey("Phone") ? data["Phone"] : "N/A");
         }
 
         /// <summary>

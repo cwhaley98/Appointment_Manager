@@ -81,9 +81,9 @@ namespace Appointment_Manager.Model.Database
             {
                 return @"
                     INSERT INTO appointment 
-                    (customerId, userId, title, description, location, contact, type, url, start, end, phone, createDate, createdBy, lastUpdate, lastUpdateBy)
+                    (customerId, userId, title, description, location, contact, type, url, start, end, createDate, createdBy, lastUpdate, lastUpdateBy)
                     VALUES
-                    (@CustomerId, @UserId, @Title, @Description, @Location, @Contact, @Type, @URL, @Start, @End, @Phone, NOW(), @CreatedBy, NOW(), @LastUpdateBy);
+                    (@CustomerId, @UserId, @Title, @Description, @Location, @Contact, @Type, @URL, @Start, @End, NOW(), @CreatedBy, NOW(), @LastUpdateBy);
                 ";
             }
         }
@@ -107,7 +107,6 @@ namespace Appointment_Manager.Model.Database
                         url = @URL,
                         start = @Start,
                         end = @End,
-                        phone = @Phone,
                         lastUpdate = NOW(),
                         lastUpdateBy = @LastUpdateBy
                     WHERE appointmentId = @AppointmentId;
@@ -137,6 +136,22 @@ namespace Appointment_Manager.Model.Database
             get
             {
                 return @"SELECT customerId, customerName FROM customer ORDER BY customerName;";
+            }
+        }
+
+        /// <summary>
+        /// Gets a single customer's phone number.
+        /// </summary>
+        public static string GetCustomerPhoneQuery
+        {
+            get
+            {
+                return @"
+                    SELECT address.phone 
+                    FROM customer
+                    INNER JOIN address ON customer.addressId = address.addressId
+                    WHERE customer.customerId = @CustomerId;
+                ";
             }
         }
 

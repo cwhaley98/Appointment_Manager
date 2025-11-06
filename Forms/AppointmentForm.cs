@@ -86,7 +86,6 @@ namespace Appointment_Manager.Forms
                 { "Title", titleTextBox.Text.Trim() },
                 { "Contact", contactTextBox.Text.Trim() },
                 { "URL", urlTextBox.Text.Trim() },
-                {"Phone", phoneTextBox.Text.Trim() }
             };
 
             bool success = appointmentController.SaveAppointment(appointmentData, IsUpdate);
@@ -159,10 +158,23 @@ namespace Appointment_Manager.Forms
 
         private void CustomerNameComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // Clear error provider
+            // Check if the sender is a ComboBox and has a valid selection
             if (sender is ComboBox comboBox && comboBox.SelectedIndex != -1)
             {
+                // Clear any old validation errors
                 errorProvider.SetError(comboBox, "");
+
+                // Get the selected customer's ID
+                int customerId = (int)comboBox.SelectedValue;
+
+                // Use the controller to fetch the phone number
+                string phone = customerController.GetCustomerPhone(customerId);
+                phoneTextBox.Text = phone;
+            }
+            else
+            {
+                // Clear the phone box if no customer is selected
+                phoneTextBox.Text = "";
             }
         }
         #endregion
@@ -171,6 +183,8 @@ namespace Appointment_Manager.Forms
 
         private void LoadFormControls()
         {
+
+            phoneTextBox.ReadOnly = true;
             AppointmentDatePicker.MinDate = DateTime.Today;
 
             PopulateTimeComboBox();
@@ -286,9 +300,6 @@ namespace Appointment_Manager.Forms
         private bool FieldsAreValid()
         {
             bool valid = true;
-
-            //Validate Phone Number
-            valid &= FormValidations.ValidateTextBox(phoneTextBox, "phone", errorProvider);
 
             // Validate ComboBoxes
             if (CustomerNameComboBox.SelectedIndex == -1)
