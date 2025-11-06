@@ -19,19 +19,25 @@ namespace Appointment_Manager.Model.Database
             get
             {
                 return @"
-                    SELECT 
-                        appointment.appointmentId, appointment.customerId, appointment.userId,
-                        title, description, location, contact, type, url, start, end,
-                        customer.customerName, user.userName, address.phone
-                    FROM 
-                        appointment
-                    INNER JOIN 
-                        customer ON appointment.customerId = customer.customerId
-                    INNER JOIN 
-                        user ON appointment.userId = user.userId
-                    INNER JOIN
-                        address ON customer.addressId = address.addressId
-                ";
+            SELECT 
+                appointment.appointmentId, appointment.customerId, appointment.userId,
+                title, description, location, contact, type, url, start, end,
+                customer.customerName, user.userName, address.phone,
+                address.addressId, city.cityId, country.countryId
+
+            FROM 
+                appointment
+            INNER JOIN 
+                customer ON appointment.customerId = customer.customerId
+            INNER JOIN 
+                user ON appointment.userId = user.userId
+            INNER JOIN
+                address ON customer.addressId = address.addressId
+            
+            INNER JOIN
+                city ON address.cityId = city.cityId
+            INNER JOIN
+                country ON city.countryId = country.countryId";
             }
         }
         /// <summary>
