@@ -168,7 +168,6 @@
             mainDGV.Name = "mainDGV";
             mainDGV.Size = new Size(1128, 480);
             mainDGV.TabIndex = 1;
-            mainDGV.CellClick += mainDGV_CellClick;
             mainDGV.DataBindingComplete += mainDGV_DataBindingComplete;
             // 
             // viewReport_btn
