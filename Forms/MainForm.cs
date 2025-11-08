@@ -26,8 +26,6 @@ namespace Appointment_Manager.Forms
 
         private CustomerController customerController = new CustomerController();
 
-        private DataGridViewRow selectedRow = null;
-
         private FormState formState = FormState.Customers; // Defaults to Customers tab
 
         private int selectedMonth = DateTime.Now.Month; // Defaults to current month
@@ -156,11 +154,14 @@ namespace Appointment_Manager.Forms
 
         private void update_btn_Click(object sender, EventArgs e)
         {
-            if (selectedRow == null)
+            if (mainDGV.SelectedRows.Count == 0) // Check if a row is *actually* selected
             {
                 MessageBox.Show("Please select a row to update.");
                 return;
             }
+            // Get the currently selected row directly from the grid
+            DataGridViewRow selectedRow = mainDGV.SelectedRows[0];
+
             isUpdate = true;
             if (formState == FormState.Customers)
             {
@@ -186,8 +187,11 @@ namespace Appointment_Manager.Forms
 
         private void delete_btn_Click(object sender, EventArgs e)
         {
-            if (selectedRow != null)
+            if (mainDGV.SelectedRows.Count > 0) // Check if a row is *actually* selected
             {
+                // Get the currently selected row directly from the grid
+                DataGridViewRow selectedRow = mainDGV.SelectedRows[0];
+
                 if (!ConfirmDelettion())
                 {
                     return;
@@ -216,7 +220,6 @@ namespace Appointment_Manager.Forms
                 errorProvider.SetError(feedbackLabel, "!");
                 feedbackLabel.Text = "Please select a row to delete.";
             }
-            selectedRow = null;
         }
 
         private void CustomersTab_Click(object sender, EventArgs e)
@@ -244,13 +247,6 @@ namespace Appointment_Manager.Forms
         {
             DateTime selectedDate = e.Start;
             LoadDailyAppointments(selectedDate);
-        }
-
-        private void mainDGV_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            int indexSelected = e.RowIndex;
-            if (indexSelected < 0) { return; } // Error handlder for header clicks
-            selectedRow = mainDGV.Rows[indexSelected];
         }
 
         private void mainDGV_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
