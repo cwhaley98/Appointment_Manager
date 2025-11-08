@@ -40,6 +40,7 @@
             dbLabel = new Label();
             dbSuccessProvider = new ErrorProvider(components);
             dbErrorProvider = new ErrorProvider(components);
+            location_label = new Label();
             ((System.ComponentModel.ISupportInitialize)dbSuccessProvider).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dbErrorProvider).BeginInit();
             SuspendLayout();
@@ -129,11 +130,21 @@
             dbErrorProvider.ContainerControl = this;
             dbErrorProvider.Icon = (Icon)resources.GetObject("dbErrorProvider.Icon");
             // 
+            // location_label
+            // 
+            location_label.AutoSize = true;
+            location_label.Location = new Point(15, 372);
+            location_label.Name = "location_label";
+            location_label.Size = new Size(83, 15);
+            location_label.TabIndex = 8;
+            location_label.Text = "[Region Label]";
+            // 
             // Login
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(420, 398);
+            Controls.Add(location_label);
             Controls.Add(dbLabel);
             Controls.Add(login_btn);
             Controls.Add(exit_btn);
@@ -163,5 +174,6 @@
         private Label dbLabel;
         private ErrorProvider dbSuccessProvider;
         private ErrorProvider dbErrorProvider;
+        private Label location_label;
     }
 }

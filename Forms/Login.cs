@@ -28,6 +28,16 @@ namespace Appointment_Manager
             CheckLabelLanguage();
 
             CheckDBConnection();
+
+            try
+            {
+                string userRegion = RegionInfo.CurrentRegion.EnglishName;
+                location_label.Text = $"Location: {userRegion}";
+            }
+            catch (Exception)
+            {
+                location_label.Text = "Location: N/A";
+            }
         }
 
         private void label1_Click(object sender, EventArgs e)
