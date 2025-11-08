@@ -70,5 +70,25 @@ namespace Appointment_Manager.Controller.Utils
             DateTime estTime = TimeZoneInfo.ConvertTime(utcTime, TimeZoneInfo.Utc, BusinessTimeZone);
             return estTime;
         }
+
+        /// <summary>
+        /// Converts a time from the user's local time to UTC for database storage.
+        /// </summary>
+        public static DateTime ConvertToUTC(DateTime localTime)
+        {
+            TimeZoneInfo userTimeZone = UserSessions.CurrentUserTimeZone;
+            // Convert local time directly to UTC
+            return TimeZoneInfo.ConvertTime(localTime, userTimeZone, TimeZoneInfo.Utc);
+        }
+
+        /// <summary>
+        /// Converts a time from UTC (from the database) to the user's local time for display.
+        /// </summary>
+        public static DateTime ConvertFromUTC(DateTime utcTime)
+        {
+            TimeZoneInfo userTimeZone = UserSessions.CurrentUserTimeZone;
+            // Convert UTC time back to the user's local time
+            return TimeZoneInfo.ConvertTime(utcTime, TimeZoneInfo.Utc, userTimeZone);
+        }
     }
 }

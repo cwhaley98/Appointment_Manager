@@ -145,8 +145,8 @@ namespace Appointment_Manager.Controller
                         // Also convert these times to local for display
                         foreach (DataRow row in dt.Rows)
                         {
-                            row["start"] = TimeUtil.ConvertToLocalTime((DateTime)row["start"]);
-                            row["end"] = TimeUtil.ConvertToLocalTime((DateTime)row["end"]);
+                            row["start"] = TimeUtil.ConvertFromUTC((DateTime)row["start"]);
+                            row["end"] = TimeUtil.ConvertFromUTC((DateTime)row["end"]);
                         }
                     }
                     catch (Exception ex)
@@ -169,12 +169,17 @@ namespace Appointment_Manager.Controller
             DateTime startOfDayEST = TimeUtil.ConvertToEST(day.Date);
             DateTime endOfDayEST = TimeUtil.ConvertToEST(day.Date.AddDays(1));
 
+            // Convert the EST business day window to UTC for the database query
+            DateTime startOfDayUTC = TimeZoneInfo.ConvertTime(startOfDayEST, BusinessTimeZone, TimeZoneInfo.Utc);
+            DateTime endOfDayUTC = TimeZoneInfo.ConvertTime(endOfDayEST, BusinessTimeZone, TimeZoneInfo.Utc);
+            // -----------
+
             using (MySqlConnection connection = DBConnection.GetNewConnection())
             {
                 using (MySqlCommand command = new MySqlCommand(DBQueries.GetAppointmentsByDayQuery, connection))
                 {
-                    command.Parameters.AddWithValue("@StartOfDay", startOfDayEST);
-                    command.Parameters.AddWithValue("@EndOfDay", endOfDayEST);
+                    command.Parameters.AddWithValue("@StartOfDay", startOfDayUTC);
+                    command.Parameters.AddWithValue("@EndOfDay", endOfDayUTC);
 
                     try
                     {
@@ -186,8 +191,8 @@ namespace Appointment_Manager.Controller
                         // Convert all 'start' and 'end' times from EST back to the user's local time for display.
                         foreach (DataRow row in dt.Rows)
                         {
-                            row["start"] = TimeUtil.ConvertToLocalTime((DateTime)row["start"]);
-                            row["end"] = TimeUtil.ConvertToLocalTime((DateTime)row["end"]);
+                            row["start"] = TimeUtil.ConvertFromUTC((DateTime)row["start"]);
+                            row["end"] = TimeUtil.ConvertFromUTC((DateTime)row["end"]);
                         }
                         // -----------------------------------------------
                     }
@@ -206,16 +211,15 @@ namespace Appointment_Manager.Controller
         public void ValidateUpcomingAppointments()
         {
             DateTime nowUTC = DateTime.UtcNow;
-            DateTime nowEST = TimeUtil.ConvertToESTFromUTC(nowUTC); // Convert current time to EST for DB comparison
-            DateTime fifteenMinutesFromNowEST = nowEST.AddMinutes(15);
+            DateTime fifteenMinutesFromNowUTC = nowUTC.AddMinutes(15);
 
             using (MySqlConnection connection = DBConnection.GetNewConnection())
             {
                 using (MySqlCommand command = new MySqlCommand(DBQueries.UpcomingAppointmentsQuery, connection))
                 {
                     command.Parameters.AddWithValue("@UserId", UserSessions.CurrentUserId);
-                    command.Parameters.AddWithValue("@Now", nowEST);
-                    command.Parameters.AddWithValue("@FifteenMinutesFromNow", fifteenMinutesFromNowEST);
+                    command.Parameters.AddWithValue("@Now", nowUTC);
+                    command.Parameters.AddWithValue("@FifteenMinutesFromNow", fifteenMinutesFromNowUTC);
 
                     try
                     {
@@ -229,7 +233,7 @@ namespace Appointment_Manager.Controller
                                 string customerName = reader["customerName"].ToString();
 
                                 // Convert start time to local for the alert (Req A.5)
-                                DateTime localStartTime = TimeUtil.ConvertToLocalTime(startTime);
+                                DateTime localStartTime = TimeUtil.ConvertFromUTC(startTime);
 
                                 string lang = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
                                 string title = (lang == "de") ? "Terminwarnung" : "Appointment Alert";
@@ -327,8 +331,8 @@ namespace Appointment_Manager.Controller
                         // Also convert these times to local for display
                         foreach (DataRow row in dt.Rows)
                         {
-                            row["start"] = TimeUtil.ConvertToLocalTime((DateTime)row["start"]);
-                            row["end"] = TimeUtil.ConvertToLocalTime((DateTime)row["end"]);
+                            row["start"] = TimeUtil.ConvertFromUTC((DateTime)row["start"]);
+                            row["end"] = TimeUtil.ConvertFromUTC((DateTime)row["end"]);
                         }
                     }
                     catch (Exception ex)

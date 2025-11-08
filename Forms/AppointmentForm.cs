@@ -63,42 +63,52 @@ namespace Appointment_Manager.Forms
             }
             // --- END of special check ---
 
-            //Field Validation
-            if (!FieldsAreValid())
-            {
-                MessageBox.Show("Please correct the fields marked with an error.", "Invalid input.", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
             //Time Conversion
             DateTime datePart = AppointmentDatePicker.Value.Date;
             TimeSpan timePart = (TimeSpan)AppointmentTimeComboBox.SelectedValue;
-
             DateTime startTimeLocal = datePart + timePart;
-            DateTime endTimeLocal = startTimeLocal.AddMinutes(30); // Makes appointments 30 minutes long
+            DateTime endTimeLocal = startTimeLocal.AddMinutes(30);
 
+            // Convert to EST *only* for validation
             DateTime startTimeEST = TimeUtil.ConvertToEST(startTimeLocal);
             DateTime endTimeEST = TimeUtil.ConvertToEST(endTimeLocal);
 
+            // Perform the 9-5 EST Business Hours Check
+            TimeSpan businessStart = new TimeSpan(9, 0, 0);  // 9:00 AM
+            TimeSpan businessEnd = new TimeSpan(17, 0, 0); // 5:00 PM
+
+            if (startTimeEST.TimeOfDay < businessStart || endTimeEST.TimeOfDay > businessEnd)
+            {
+                MessageBox.Show("The selected time is outside of business hours (9:00 AM - 5:00 PM EST).",
+                                "Invalid Time", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                errorProvider.SetError(AppointmentTimeComboBox, "Outside business hours (9:00 AM - 5:00 PM EST).");
+                return;
+            }
+
+            // Convert to UTC *for database storage*
+            DateTime startTimeUTC = TimeUtil.ConvertToUTC(startTimeLocal);
+            DateTime endTimeUTC = TimeUtil.ConvertToUTC(endTimeLocal);
+
             int consultantId = (int)ConsultantComboBox.SelectedValue;
 
-            if (appointmentController.CheckForOverlappingAppointments(consultantId, startTimeEST, endTimeEST, appointmentId))
+            // Overlap check must now also use UTC
+            if (appointmentController.CheckForOverlappingAppointments(consultantId, startTimeUTC, endTimeUTC, appointmentId))
             {
                 MessageBox.Show("This appointment overlaps with an existing appointment for this consultant. Please choose a different time.", "Overlap Detected.", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            //Create data payload for AppointmentController
+            // Update the data payload to use UTC values
             var appointmentData = new Dictionary<string, object>
             {
                 { "AppointmentId", this.appointmentId },
-                { "CustomerId", CustomerNameComboBox.SelectedValue }, // Assumes ValueMember is CustomerId
-                { "UserId", ConsultantComboBox.SelectedValue },     // Assumes ValueMember is UserId
+                { "CustomerId", CustomerNameComboBox.SelectedValue },
+                { "UserId", ConsultantComboBox.SelectedValue },
                 { "Description", DescriptionTextBox.Text.Trim() },
                 { "Location", LocationComboBox.SelectedItem.ToString() },
                 { "Type", VisitTypeComboBox.SelectedItem.ToString() },
-                { "Start", startTimeEST }, // Pass the converted EST time
-                { "End", endTimeEST },      // Pass the converted EST time
+                { "Start", startTimeUTC },
+                { "End", endTimeUTC }, 
                 { "Title", titleTextBox.Text.Trim() },
                 { "Contact", contactTextBox.Text.Trim() },
                 { "URL", urlTextBox.Text.Trim() },
