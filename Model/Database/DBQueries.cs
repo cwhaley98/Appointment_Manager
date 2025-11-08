@@ -55,6 +55,19 @@ namespace Appointment_Manager.Model.Database
         }
 
         /// <summary>
+        /// Gets a distinct list of dates that have appointments.
+        /// </summary>
+        public static string GetDatesWithAppointmentsQuery
+        {
+            get
+            {
+                // DATE() converts the 'start' (a DATETIME) to just a 'YYYY-MM-DD'
+                // DISTINCT ensures we only get one entry per day.
+                return "SELECT DISTINCT DATE(start) FROM appointment;";
+            }
+        }
+
+        /// <summary>
         /// Checks for overlapping appointments for a specific user.
         /// </summary>
         public static string CheckOverlapQuery
