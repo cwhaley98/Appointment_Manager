@@ -20,6 +20,8 @@ namespace Appointment_Manager.Forms
     {
         private AppointmentController appointmentController = new AppointmentController();
 
+        private System.Windows.Forms.Timer timeZonePollTimer;
+
         private UserController userController = new UserController();
 
         private CustomerController customerController = new CustomerController();
@@ -50,6 +52,7 @@ namespace Appointment_Manager.Forms
 
             this.FormClosed += new FormClosedEventHandler(MainForm_FormClosed);
 
+
             try
             {
                 // Get the time zone we stored at login
@@ -61,6 +64,11 @@ namespace Appointment_Manager.Forms
             {
                 timeZone_label.Text = "Time zone: N/A";
             }
+
+            timeZonePollTimer = new System.Windows.Forms.Timer();
+            timeZonePollTimer.Interval = 5000; // 5000 milliseconds
+            timeZonePollTimer.Tick += new EventHandler(timeZonePollTimer_Tick);
+            timeZonePollTimer.Start();
 
             // --- Lambda Event Subscriptions ---
 
@@ -102,6 +110,25 @@ namespace Appointment_Manager.Forms
         }
 
         #region EventHandlers
+
+        /// <summary>
+        /// This event fires every 5 seconds to check for a system time zone change.
+        /// </summary>
+        private void timeZonePollTimer_Tick(object sender, EventArgs e)
+        {
+            // Force .NET to clear its cached time zone data
+            TimeZoneInfo.ClearCachedData();
+
+            // Get the *actual* current local time zone from the OS
+            var currentSystemZone = TimeZoneInfo.Local;
+
+            // Check if it's different from the time zone we stored at login
+            if (!currentSystemZone.Equals(UserSessions.CurrentUserTimeZone))
+            {
+                // If it's different, update the app
+                UpdateAppTimeZone();
+            }
+        }
 
         private void add_btn_Click(object sender, EventArgs e)
         {
@@ -287,6 +314,21 @@ namespace Appointment_Manager.Forms
         #endregion
 
         #region HelperMethods
+
+        /// <summary>
+        /// This helper method runs on the UI thread and updates the app.
+        /// </summary>
+        private void UpdateAppTimeZone()
+        {
+            // Re-set the session with the new time zone
+            UserSessions.CurrentUserTimeZone = TimeZoneInfo.Local;
+
+            // Update the label on the form
+            timeZone_label.Text = $"Times shown in: {UserSessions.CurrentUserTimeZone.StandardName}";
+
+            // Re-fetch and re-convert all appointments in the grid
+            RefreshTable();
+        }
 
         private void UpdateCalendarBoldedDates()
         {
@@ -516,6 +558,8 @@ namespace Appointment_Manager.Forms
         // This handles the user clicking the "X" button
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
         {
+
+            timeZonePollTimer.Stop();
             // If the login form is NOT visible, it means the user clicked "X"
             // and didn't log out. We should exit the whole app.
             if (!_loginForm.Visible)

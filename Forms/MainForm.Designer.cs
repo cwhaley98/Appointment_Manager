@@ -38,6 +38,7 @@
             consultantSchedulesToolStripMenuItem = new ToolStripMenuItem();
             appointmentPerLocationToolStripMenuItem = new ToolStripMenuItem();
             LogOutMenuItem = new ToolStripMenuItem();
+            timeZone_label = new ToolStripTextBox();
             add_btn = new Button();
             update_btn = new Button();
             delete_btn = new Button();
@@ -52,7 +53,6 @@
             errorProvider = new ErrorProvider(components);
             successProvider = new ErrorProvider(components);
             showAll_btn = new Button();
-            timeZone_label = new ToolStripTextBox();
             menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)mainDGV).BeginInit();
             ((System.ComponentModel.ISupportInitialize)errorProvider).BeginInit();
@@ -117,6 +117,13 @@
             LogOutMenuItem.Size = new Size(62, 23);
             LogOutMenuItem.Text = "Log Out";
             LogOutMenuItem.Click += LogOutMenuItem_Click;
+            // 
+            // timeZone_label
+            // 
+            timeZone_label.Alignment = ToolStripItemAlignment.Right;
+            timeZone_label.Name = "timeZone_label";
+            timeZone_label.Size = new Size(250, 23);
+            timeZone_label.Text = "(Loading time zone...)";
             // 
             // add_btn
             // 
@@ -247,13 +254,6 @@
             showAll_btn.Text = "Refresh Appointments";
             showAll_btn.UseVisualStyleBackColor = true;
             showAll_btn.Click += showAll_btn_Click;
-            // 
-            // timeZone_label
-            // 
-            timeZone_label.Alignment = ToolStripItemAlignment.Right;
-            timeZone_label.Name = "timeZone_label";
-            timeZone_label.Size = new Size(125, 23);
-            timeZone_label.Text = "(Loading time zone...)";
             // 
             // MainForm
             // 

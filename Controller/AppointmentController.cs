@@ -170,8 +170,8 @@ namespace Appointment_Manager.Controller
             DateTime endOfDayEST = TimeUtil.ConvertToEST(day.Date.AddDays(1));
 
             // Convert the EST business day window to UTC for the database query
-            DateTime startOfDayUTC = TimeZoneInfo.ConvertTime(startOfDayEST, BusinessTimeZone, TimeZoneInfo.Utc);
-            DateTime endOfDayUTC = TimeZoneInfo.ConvertTime(endOfDayEST, BusinessTimeZone, TimeZoneInfo.Utc);
+            DateTime startOfDayUTC = TimeUtil.ConvertFromESTToUTC(startOfDayEST);
+            DateTime endOfDayUTC = TimeUtil.ConvertFromESTToUTC(endOfDayEST);
             // -----------
 
             using (MySqlConnection connection = DBConnection.GetNewConnection())

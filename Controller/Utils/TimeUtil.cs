@@ -90,5 +90,14 @@ namespace Appointment_Manager.Controller.Utils
             // Convert UTC time back to the user's local time
             return TimeZoneInfo.ConvertTime(utcTime, TimeZoneInfo.Utc, userTimeZone);
         }
+
+        /// <summary>
+        /// Converts a time from EST to UTC.
+        /// </summary>
+        public static DateTime ConvertFromESTToUTC(DateTime estTime)
+        {
+            // Convert from EST to UTC
+            return TimeZoneInfo.ConvertTime(estTime, BusinessTimeZone, TimeZoneInfo.Utc);
+        }
     }
 }
