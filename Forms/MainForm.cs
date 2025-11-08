@@ -50,6 +50,18 @@ namespace Appointment_Manager.Forms
 
             this.FormClosed += new FormClosedEventHandler(MainForm_FormClosed);
 
+            try
+            {
+                // Get the time zone we stored at login
+                TimeZoneInfo userZone = UserSessions.CurrentUserTimeZone;
+                // Display its standard name (e.g., "Pacific Standard Time")
+                timeZone_label.Text = $"Times shown in: {userZone.StandardName}";
+            }
+            catch (Exception)
+            {
+                timeZone_label.Text = "Time zone: N/A";
+            }
+
             // --- Lambda Event Subscriptions ---
 
             // Lambda 1: Appointment Types by Month

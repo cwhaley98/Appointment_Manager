@@ -52,6 +52,7 @@
             errorProvider = new ErrorProvider(components);
             successProvider = new ErrorProvider(components);
             showAll_btn = new Button();
+            timeZone_label = new ToolStripTextBox();
             menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)mainDGV).BeginInit();
             ((System.ComponentModel.ISupportInitialize)errorProvider).BeginInit();
@@ -60,10 +61,10 @@
             // 
             // menuStrip1
             // 
-            menuStrip1.Items.AddRange(new ToolStripItem[] { CustomersTab, AppointmentsTab, ReportsMenuItem, LogOutMenuItem });
+            menuStrip1.Items.AddRange(new ToolStripItem[] { CustomersTab, AppointmentsTab, ReportsMenuItem, LogOutMenuItem, timeZone_label });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(1397, 24);
+            menuStrip1.Size = new Size(1397, 27);
             menuStrip1.TabIndex = 0;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -71,7 +72,7 @@
             // 
             CustomersTab.BackColor = SystemColors.ControlLight;
             CustomersTab.Name = "CustomersTab";
-            CustomersTab.Size = new Size(76, 20);
+            CustomersTab.Size = new Size(76, 23);
             CustomersTab.Text = "Customers";
             CustomersTab.Click += CustomersTab_Click;
             // 
@@ -79,7 +80,7 @@
             // 
             AppointmentsTab.BackColor = SystemColors.ControlLight;
             AppointmentsTab.Name = "AppointmentsTab";
-            AppointmentsTab.Size = new Size(95, 20);
+            AppointmentsTab.Size = new Size(95, 23);
             AppointmentsTab.Text = "Appointments";
             AppointmentsTab.Click += AppointmentsTab_Click;
             // 
@@ -87,7 +88,7 @@
             // 
             ReportsMenuItem.DropDownItems.AddRange(new ToolStripItem[] { appointmentTypesByMonthToolStripMenuItem, consultantSchedulesToolStripMenuItem, appointmentPerLocationToolStripMenuItem });
             ReportsMenuItem.Name = "ReportsMenuItem";
-            ReportsMenuItem.Size = new Size(59, 20);
+            ReportsMenuItem.Size = new Size(59, 23);
             ReportsMenuItem.Text = "Reports";
             // 
             // appointmentTypesByMonthToolStripMenuItem
@@ -113,7 +114,7 @@
             LogOutMenuItem.Alignment = ToolStripItemAlignment.Right;
             LogOutMenuItem.Name = "LogOutMenuItem";
             LogOutMenuItem.RightToLeft = RightToLeft.No;
-            LogOutMenuItem.Size = new Size(62, 20);
+            LogOutMenuItem.Size = new Size(62, 23);
             LogOutMenuItem.Text = "Log Out";
             LogOutMenuItem.Click += LogOutMenuItem_Click;
             // 
@@ -243,9 +244,16 @@
             showAll_btn.Name = "showAll_btn";
             showAll_btn.Size = new Size(108, 54);
             showAll_btn.TabIndex = 14;
-            showAll_btn.Text = "Show All Appointments";
+            showAll_btn.Text = "Refresh Appointments";
             showAll_btn.UseVisualStyleBackColor = true;
             showAll_btn.Click += showAll_btn_Click;
+            // 
+            // timeZone_label
+            // 
+            timeZone_label.Alignment = ToolStripItemAlignment.Right;
+            timeZone_label.Name = "timeZone_label";
+            timeZone_label.Size = new Size(125, 23);
+            timeZone_label.Text = "(Loading time zone...)";
             // 
             // MainForm
             // 
@@ -300,5 +308,6 @@
         private ErrorProvider errorProvider;
         private ErrorProvider successProvider;
         private Button showAll_btn;
+        private ToolStripTextBox timeZone_label;
     }
 }
