@@ -249,6 +249,38 @@ namespace Appointment_Manager.Controller
             }
         }
 
+        /// <summary>
+        /// Gets a list of all dates that have at least one appointment.
+        /// </summary>
+        /// <returns>A List of DateTimes</returns>
+        public List<DateTime> GetDatesWithAppointments()
+        {
+            var dates = new List<DateTime>();
+            using (MySqlConnection connection = DBConnection.GetNewConnection())
+            {
+                using (MySqlCommand command = new MySqlCommand(DBQueries.GetDatesWithAppointmentsQuery, connection))
+                {
+                    try
+                    {
+                        connection.Open();
+                        using (MySqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                // The query returns a DATE
+                                dates.Add(reader.GetDateTime(0));
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Error fetching appointment dates: {ex.Message}");
+                    }
+                }
+            }
+            return dates;
+        }
+
         // --- REPORTING METHODS (Requirement A.7) ---
 
         public DataTable GetAppointmentTypesByMonth(int month, int year)

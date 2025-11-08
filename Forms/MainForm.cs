@@ -276,6 +276,24 @@ namespace Appointment_Manager.Forms
 
         #region HelperMethods
 
+        private void UpdateCalendarBoldedDates()
+        {
+            // 1. Clear all previous bolded dates
+            calendarView.RemoveAllBoldedDates();
+
+            // 2. Get the new list of dates from the controller
+            List<DateTime> appointmentDates = appointmentController.GetDatesWithAppointments();
+
+            // 3. Add them to the calendar as an array
+            if (appointmentDates.Any())
+            {
+                calendarView.BoldedDates = appointmentDates.ToArray();
+            }
+
+            // 4. Refresh the calendar control to show the changes
+            calendarView.UpdateBoldedDates();
+        }
+
         private void LoadDailyAppointments(DateTime date)
         {
             mainDGV.DataSource = appointmentController.GetAppointmentsByDay(date);
@@ -305,6 +323,7 @@ namespace Appointment_Manager.Forms
             {
                 mainDGV.DataSource = appointmentController.GetAppointments();
                 SetupAppointmentDGV();
+                UpdateCalendarBoldedDates();
             }
             else if (formState == FormState.Customers)
             {
