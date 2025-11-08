@@ -298,7 +298,7 @@ namespace Appointment_Manager.Forms
             // Set simple fields
             DescriptionTextBox.Text = row.Cells["description"].Value.ToString();
             LocationComboBox.SelectedItem = row.Cells["location"].Value.ToString();
-            VisitTypeComboBox.SelectedItem = row.Cells["yype"].Value.ToString();
+            VisitTypeComboBox.SelectedItem = row.Cells["type"].Value.ToString();
             CustomerNameComboBox.SelectedValue = (int)row.Cells["customerId"].Value;
             ConsultantComboBox.SelectedValue = (int)row.Cells["userId"].Value;
 
