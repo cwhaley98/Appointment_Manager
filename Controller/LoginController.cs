@@ -72,25 +72,31 @@ namespace Appointment_Manager.Controller
         // Displays login success and fail messages based on current culture settings
         private void LoginSuccessful()
         {
-            if (CultureInfo.CurrentCulture.TwoLetterISOLanguageName == "en")
-            {
-                MessageBox.Show("Login Successful!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            else if (CultureInfo.CurrentCulture.TwoLetterISOLanguageName == "de")
+            string uiLanguage = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+            string formatLanguage = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
+
+            if (uiLanguage == "de" || formatLanguage == "de")
             {
                 MessageBox.Show("Anmeldung erfolgreich!", "Erfolg", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                MessageBox.Show("Login Successful!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
         private void LoginFail()
         {
-            if (CultureInfo.CurrentCulture.TwoLetterISOLanguageName == "en")
-            {
-                MessageBox.Show("Login Failed! Please check your username and password.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            else if (CultureInfo.CurrentCulture.TwoLetterISOLanguageName == "de")
+            string uiLanguage = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+            string formatLanguage = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
+
+            if (uiLanguage == "de" || formatLanguage == "de")
             {
                 MessageBox.Show("Anmeldung fehlgeschlagen! Bitte überprüfen Sie Ihren Benutzernamen und Ihr Passwort.", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                MessageBox.Show("Login Failed! Please check your username and password.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

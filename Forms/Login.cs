@@ -106,22 +106,26 @@ namespace Appointment_Manager
         }
         private void CheckLabelLanguage()
         {
-            if (CultureInfo.CurrentCulture.TwoLetterISOLanguageName == "en")
-            {
-                Username.Text = "Username";
-                Password.Text = "Password";
-                login_btn.Text = "Login";
-                exit_btn.Text = "Exit";
-                AMS_Title.Text = "Appointment Management System";
-            }
+            // Get both language codes
+            string uiLanguage = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+            string formatLanguage = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
 
-            else if (CultureInfo.CurrentCulture.TwoLetterISOLanguageName == "de")
+            // Use German if EITHER setting is "de"
+            if (uiLanguage == "de" || formatLanguage == "de")
             {
                 Username.Text = "Benutzername";
                 Password.Text = "Passwort";
                 login_btn.Text = "Login";
                 exit_btn.Text = "Beenden";
                 AMS_Title.Text = "Terminverwaltungssystem";
+            }
+            else // Default to English
+            {
+                Username.Text = "Username";
+                Password.Text = "Password";
+                login_btn.Text = "Login";
+                exit_btn.Text = "Exit";
+                AMS_Title.Text = "Appointment Management System";
             }
         }
 
