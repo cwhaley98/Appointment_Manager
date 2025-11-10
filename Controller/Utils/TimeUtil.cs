@@ -34,11 +34,8 @@ namespace Appointment_Manager.Controller.Utils
         /// <returns>The equivalent time in EST.</returns>
         public static DateTime ConvertToEST(DateTime localTime)
         {
-            // Get the user's time zone captured at login
-            TimeZoneInfo userTimeZone = UserSessions.CurrentUserTimeZone;
-
             // Use ConvertTime to handle all Daylight Saving Time (DST) logic automatically
-            DateTime estTime = TimeZoneInfo.ConvertTime(localTime, userTimeZone, BusinessTimeZone);
+            DateTime estTime = TimeZoneInfo.ConvertTime(localTime, TimeZoneInfo.Local, BusinessTimeZone);
             return estTime;
         }
 
@@ -76,9 +73,8 @@ namespace Appointment_Manager.Controller.Utils
         /// </summary>
         public static DateTime ConvertToUTC(DateTime localTime)
         {
-            TimeZoneInfo userTimeZone = UserSessions.CurrentUserTimeZone;
             // Convert local time directly to UTC
-            return TimeZoneInfo.ConvertTime(localTime, userTimeZone, TimeZoneInfo.Utc);
+            return TimeZoneInfo.ConvertTime(localTime, TimeZoneInfo.Local, TimeZoneInfo.Utc);
         }
 
         /// <summary>
