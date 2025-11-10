@@ -63,6 +63,12 @@ namespace Appointment_Manager.Forms
             }
             // --- END of special check ---
 
+            if (!FieldsAreValid())
+            {
+                MessageBox.Show("Please seelcta value for fields marked with an error", "Invalid input.", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             //Time Conversion
             DateTime datePart = AppointmentDatePicker.Value.Date;
             TimeSpan timePart = (TimeSpan)AppointmentTimeComboBox.SelectedValue;
@@ -258,26 +264,41 @@ namespace Appointment_Manager.Forms
         }
 
         /// <summary>
-        /// Populates the time ComboBox with 30-min intervals during business hours (9am-5pm).
+        /// Populates the time ComboxBox with 30-min intervals.
+        /// It displays the 9:00 AM - 5:00 PM EST business hours, converted to the user's local time
         /// </summary>
         public void PopulateTimeComboBox()
         {
             var timeSlots = new List<TimeSlot>();
-            TimeSpan startTime = new TimeSpan(9, 0, 0);  // 9:00 AM
-            TimeSpan endTime = new TimeSpan(17, 0, 0); // 5:00 PM
+            TimeSpan startTimeEST = new TimeSpan(9, 0, 0); // 9:00 AM EST
+            TimeSpan endTimeEST = new TimeSpan(17, 0, 0); // 5:00 PM EST
 
-            while (startTime < endTime)
+            //Use today as dummy data for conversion
+            DateTime today = DateTime.Today;
+
+            TimeSpan currentSlotEST = startTimeEST;
+            while (currentSlotEST < endTimeEST)
             {
-                TimeSpan slotEnd = startTime.Add(new TimeSpan(0, 30, 0));
+                //Create a DateTime for the EST slot
+                DateTime estTimeSlot = DateTime.SpecifyKind(today + currentSlotEST, DateTimeKind.Unspecified);
+
+                //Convert this EST slot to the user's local time
+                DateTime localTimeSlot = TimeUtil.ConvertToLocalTime(estTimeSlot);
+
+                //The Value we save must be the user's local time
+                TimeSpan localTimeValue = localTimeSlot.TimeOfDay;
+                DateTime localSlotEnd = localTimeSlot.AddMinutes(30);
+
                 timeSlots.Add(new TimeSlot
                 {
-                    // Format: "09:00 - 09:30"
-                    DisplayText = $"{startTime:hh\\:mm} - {slotEnd:hh\\:mm}",
-                    Value = startTime
+                    //Format to users local time
+                    DisplayText = $"{localTimeSlot:HH:mm} - {localSlotEnd:HH:mm}",
+                    Value = localTimeValue
                 });
-                startTime = slotEnd;
-            }
 
+                //Move to the new 30-minute slot
+                currentSlotEST = currentSlotEST.Add(new TimeSpan(0, 30, 0));
+            }
             AppointmentTimeComboBox.DataSource = timeSlots;
             AppointmentTimeComboBox.DisplayMember = "DisplayText";
             AppointmentTimeComboBox.ValueMember = "Value";
