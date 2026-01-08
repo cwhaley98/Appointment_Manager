@@ -2,7 +2,7 @@
 
 ### Technology Stack
   * C#
-  * Windows Form Application (.NET Framework 8)
+  * Windows Form Application (.NET 8)
   * MySQL
 
 ### Tools
@@ -11,7 +11,7 @@
   * Git and GitHub
 
 ### Summary
-The Appointment Scheduling Manager is a Windows Form Application (.NET Framework 8) appointment and calendar scheduling system written in C#. 
+The Appointment Scheduling Manager is a Windows Form Application (.NET 8) appointment and calendar scheduling system written in C#. 
 This is intergrated with a MySQL database, the GUI is designed for users to add/modify/delete customers from the database, as well as create/modify/delete appointments for customers.
 
 ## Functionality
